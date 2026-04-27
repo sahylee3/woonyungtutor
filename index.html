@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#F5B100">
+<title>운영튜터 · 운영자를 위한 데이터 분석 학습</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',system-ui,sans-serif;background:#DCDFE3;color:#191F28;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:'tnum';letter-spacing:-0.2px;font-size:15px;line-height:1.55}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+[hidden]{display:none!important}
+
+.frame{max-width:430px;margin:0 auto;min-height:100vh;background:#F2F4F6;position:relative;box-shadow:0 0 80px rgba(0,0,0,0.08)}
+@media (max-width:480px){body{background:#F2F4F6}.frame{box-shadow:none}}
+
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 8px;background:#F2F4F6}
+.statusbar .time{font-size:15px;font-weight:600}
+.statusbar .brand{font-size:15px;font-weight:700;color:#946600;letter-spacing:-0.2px}
+
+.tabbar{display:flex;background:rgba(242,244,246,0.92);padding:0 18px;border-bottom:0.5px solid rgba(0,0,0,0.06);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.tab{flex:1;padding:14px 0;text-align:center;font-size:15px;font-weight:600;color:#8B95A1;background:transparent;border:none;border-bottom:2px solid transparent;transition:color 0.18s ease}
+.tab.active{color:#191F28;border-bottom-color:#F5B100}
+
+.section{padding:20px;background:#F2F4F6;animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{padding:8px 0 20px}
+.hi{font-size:15px;color:#6B7684;font-weight:500;margin:0}
+.hero-h{font-size:26px;font-weight:700;line-height:1.4;margin:6px 0 0;letter-spacing:-0.6px}
+.hero-h .hl{background:linear-gradient(transparent 60%,#FFE082 60%);padding:0 2px;font-weight:700}
+.hero-sub{font-size:15px;color:#6B7684;line-height:1.6;margin:10px 0 0}
+
+.topic-btn{display:block;width:100%;background:#FFFFFF;border:none;border-radius:18px;padding:20px;margin-bottom:12px;text-align:left;transition:transform 0.15s ease,background 0.15s ease}
+.topic-btn:active{transform:scale(0.985);background:#FAFBFC}
+.topic-btn-row{display:flex;align-items:center;gap:14px}
+.topic-num{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#FFF4D6;color:#946600;font-size:18px;font-weight:700;border-radius:14px;flex-shrink:0;letter-spacing:-0.5px}
+.topic-info{flex:1;min-width:0}
+.topic-name{font-size:18px;font-weight:700;letter-spacing:-0.4px}
+.topic-sub{font-size:15px;color:#6B7684;margin-top:3px;font-weight:500}
+.topic-arrow{color:#B0B8C1;font-size:22px;font-weight:600}
+.topic-quick{margin-top:14px;padding-top:14px;border-top:0.5px solid #EEF0F3;font-size:15px;color:#4E5968;line-height:1.55}
+.topic-meta{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:15px;color:#8B95A1;font-weight:600}
+.topic-meta-dot{width:4px;height:4px;background:#D1D6DB;border-radius:50%}
+
+.deep-step-btn{display:block;width:100%;background:#FFFFFF;border:none;border-radius:18px;padding:18px 20px;margin-bottom:10px;text-align:left;transition:transform 0.15s ease}
+.deep-step-btn:active{transform:scale(0.985)}
+.dsb-row{display:flex;align-items:center;gap:14px}
+.dsb-num{flex-shrink:0;width:42px;height:42px;background:#FFF4D6;color:#946600;font-size:16px;font-weight:700;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.dsb-info{flex:1;min-width:0}
+.dsb-h{font-size:16px;font-weight:700;letter-spacing:-0.3px}
+.dsb-p{font-size:15px;color:#6B7684;margin-top:2px;line-height:1.5}
+.dsb-arrow{color:#B0B8C1;font-size:22px;font-weight:600}
+
+.warn{background:#FFFAEC;border-radius:14px;padding:16px 18px;margin-top:18px}
+.warn-h{font-size:15px;color:#946600;font-weight:700}
+.warn-p{font-size:15px;color:#7A5D00;line-height:1.65;margin:6px 0 0}
+
+.search{width:100%;padding:14px 16px;background:#fff;border:none;border-radius:12px;font-size:15px;outline:none;color:#191F28}
+.search::placeholder{color:#B0B8C1}
+.chips{display:flex;gap:6px;margin:12px 0 14px;flex-wrap:wrap}
+.chip{padding:8px 13px;background:#fff;border-radius:999px;font-size:15px;color:#6B7684;border:none;font-weight:600;transition:all 0.18s ease}
+.chip.active{background:#3182F6;color:#fff}
+.word{background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:8px}
+.word-h{font-size:17px;font-weight:700}
+.word-en{font-size:15px;color:#8B95A1;margin-left:6px;font-weight:500}
+.word-d{font-size:15px;color:#4E5968;line-height:1.7;margin-top:8px}
+.word-ex{font-size:15px;color:#6B7684;background:#FAFBFC;border-radius:8px;padding:8px 10px;margin-top:8px;line-height:1.6}
+.word-ex-l{font-size:15px;color:#8B95A1;font-weight:700;margin:0 0 3px;letter-spacing:0.5px}
+.word-tags{display:flex;gap:6px;margin-top:6px}
+.word-tag{padding:3px 9px;background:#EEF0F3;color:#6B7684;font-size:15px;border-radius:5px;font-weight:600}
+.word-tag.gold{background:#FFF4D6;color:#946600}
+.empty{padding:40px 20px;text-align:center;color:#B0B8C1;font-size:15px}
+
+.footer-pad{height:40px}
+
+/* ============== SLIDE LEARNING SYSTEM ============== */
+.slide-mode{position:relative;animation:fadeIn 0.25s ease;padding-bottom:100px}
+
+.slide-top{display:flex;align-items:center;gap:10px;padding:6px 0 14px}
+.back-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:transparent;border:none;border-radius:10px;font-size:22px;color:#191F28;font-weight:600;margin-left:-8px;flex-shrink:0}
+.back-btn:active{background:rgba(0,0,0,0.04)}
+.slide-progress{flex:1;display:flex;align-items:center;gap:10px}
+.slide-progress-track{flex:1;height:4px;background:#E5E8EB;border-radius:2px;overflow:hidden}
+.slide-progress-fill{height:100%;background:#3182F6;border-radius:2px;transition:width 0.3s ease}
+.slide-progress-text{font-size:15px;color:#6B7684;font-weight:600;flex-shrink:0;min-width:34px;text-align:right}
+
+.slide-tag{display:inline-block;padding:5px 11px;background:#FFF4D6;color:#946600;font-size:15px;font-weight:700;border-radius:6px;letter-spacing:0.5px;margin-bottom:14px}
+.slide-tag.gray{background:#EEF0F3;color:#6B7684}
+.slide-tag.blue{background:#E8F2FE;color:#1F73D9}
+.slide-tag.green{background:#E8F5E9;color:#2E7D32}
+
+.slide{animation:slideIn 0.25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+
+.slide-h{font-size:26px;font-weight:700;line-height:1.35;margin:0 0 14px;letter-spacing:-0.6px;color:#191F28}
+.slide-h.lg{font-size:30px}
+.slide-h.sm{font-size:22px}
+.slide-p{font-size:15px;color:#4E5968;line-height:1.75;margin:0 0 14px}
+.slide-p.lead{font-size:16px;color:#191F28;line-height:1.7}
+
+.analogy-card{background:linear-gradient(135deg,#FFF4D6 0%,#FFE082 100%);border-radius:16px;padding:18px 20px;margin:16px 0}
+.analogy-l{font-size:15px;color:#946600;font-weight:700;letter-spacing:1px;margin:0 0 6px}
+.analogy-t{font-size:16px;color:#7A5D00;line-height:1.65;margin:0;font-weight:600}
+
+.scenario-list{margin:0;padding:0;list-style:none}
+.scenario-item{background:#FFFFFF;border-radius:14px;padding:16px 18px;margin-bottom:8px}
+.scenario-num{display:flex;align-items:center;justify-content:center;width:24px;height:24px;background:#E8F2FE;color:#3182F6;font-size:15px;font-weight:700;border-radius:7px;margin-bottom:8px}
+.scenario-t{font-size:15px;font-weight:700;color:#191F28;margin:0 0 4px;letter-spacing:-0.2px}
+.scenario-d{font-size:15px;color:#6B7684;line-height:1.6;margin:0}
+
+.case-num-big{display:inline-block;padding:6px 12px;background:#FFF4D6;color:#946600;font-size:15px;font-weight:700;border-radius:7px;letter-spacing:0.3px;margin-bottom:14px}
+.case-bg-card{background:#FFFFFF;border-radius:16px;padding:18px 20px;margin-bottom:12px}
+.case-bg-l{font-size:15px;color:#8B95A1;font-weight:700;letter-spacing:0.5px;margin:0 0 6px}
+.case-bg-t{font-size:15px;color:#191F28;line-height:1.7;margin:0}
+
+.view-label{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:#E8F2FE;color:#1F73D9;font-size:15px;font-weight:700;border-radius:6px;letter-spacing:0.3px;margin-bottom:10px}
+.view-label::before{content:'👁';font-size:15px}
+
+.view-msg{font-size:18px;font-weight:700;color:#191F28;line-height:1.5;margin:0 0 14px;letter-spacing:-0.3px}
+.chart-card{background:#FFFFFF;border-radius:16px;padding:16px 14px 12px;margin-bottom:12px}
+.chart-title{font-size:15px;font-weight:700;color:#191F28;margin:0 4px 4px;letter-spacing:-0.2px}
+.chart-note{font-size:15px;color:#6B7684;margin:0 4px 12px;font-weight:500;line-height:1.5}
+.chart-wrap{position:relative;height:220px}
+.chart-wrap.tall{height:250px}
+.chart-wrap.short{height:160px}
+
+.view-hint{background:#FAFBFC;border-radius:12px;padding:14px 16px;font-size:15px;color:#4E5968;line-height:1.7;margin:0}
+.view-hint-l{font-size:15px;color:#8B95A1;font-weight:700;letter-spacing:0.5px;margin:0 0 4px;display:block}
+
+.summary-card{background:#FFFFFF;border-radius:16px;padding:18px 20px;margin-bottom:12px}
+.summary-row{padding:14px 0;border-bottom:0.5px solid #EEF0F3}
+.summary-row:first-child{padding-top:0}
+.summary-row:last-child{border-bottom:none;padding-bottom:0}
+.summary-l{display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;letter-spacing:0.5px;margin:0 0 6px}
+.summary-l .dot{width:6px;height:6px;border-radius:50%}
+.summary-t{font-size:15px;color:#191F28;line-height:1.7;margin:0}
+.summary-row.observe .summary-l{color:#1F73D9}
+.summary-row.observe .dot{background:#3182F6}
+.summary-row.insight .summary-l{color:#946600}
+.summary-row.insight .dot{background:#F5B100}
+.summary-row.action .summary-l{color:#2E7D32}
+.summary-row.action .dot{background:#2E7D32}
+
+.tool-card{background:#FFFFFF;border-radius:16px;padding:18px 20px;margin-bottom:12px;border-left:4px solid #3182F6}
+.tool-name{font-size:20px;font-weight:700;color:#191F28;margin:0 0 6px;letter-spacing:-0.4px}
+.tool-en{font-size:15px;color:#8B95A1;font-weight:500;margin:0 0 12px}
+.tool-def{font-size:15px;color:#4E5968;line-height:1.7;margin:0 0 14px}
+.tool-mini{background:#FAFBFC;border-radius:10px;padding:12px 14px}
+.tool-mini-l{font-size:15px;color:#8B95A1;font-weight:700;letter-spacing:0.5px;margin:0 0 4px}
+.tool-mini-t{font-size:15px;color:#191F28;line-height:1.65;margin:0}
+
+.howto-step{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid #EEF0F3}
+.howto-step:last-child{border-bottom:none;padding-bottom:0}
+.howto-step:first-child{padding-top:0}
+.howto-num{flex-shrink:0;width:28px;height:28px;background:#FFF4D6;color:#946600;font-size:15px;font-weight:700;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.howto-content{flex:1}
+.howto-title{font-size:15px;font-weight:700;margin:0 0 4px}
+.howto-desc{font-size:15px;color:#6B7684;line-height:1.6;margin:0}
+
+.pitfall-card{background:#FFFFFF;border-radius:16px;padding:18px 20px;margin-bottom:8px}
+.pitfall-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#FFEBEE;color:#D32F2F;font-size:15px;font-weight:700;border-radius:8px;margin-bottom:10px}
+.pitfall-t{font-size:15px;font-weight:700;color:#191F28;margin:0 0 6px;line-height:1.5}
+.pitfall-d{font-size:15px;color:#6B7684;line-height:1.65;margin:0}
+
+.key-insight{background:linear-gradient(135deg,#FFF4D6 0%,#FFE082 100%);border-radius:18px;padding:24px;margin-bottom:14px}
+.key-insight-l{font-size:15px;color:#946600;font-weight:700;letter-spacing:1.5px;margin:0 0 10px}
+.key-insight-text{font-size:18px;font-weight:700;color:#7A5D00;line-height:1.55;margin:0;letter-spacing:-0.3px}
+
+.connection-card{background:#E8F2FE;border-radius:16px;padding:18px 20px;margin:14px 0}
+.connection-l{font-size:15px;color:#1F73D9;font-weight:700;letter-spacing:0.5px;margin:0 0 8px}
+.connection-h{font-size:15px;font-weight:700;color:#191F28;margin:0 0 8px;letter-spacing:-0.2px}
+.connection-t{font-size:15px;color:#1F73D9;line-height:1.7;margin:0}
+
+.flow-diagram{display:flex;align-items:center;gap:6px;margin:12px 0;overflow-x:auto;padding:4px 0}
+.flow-step{flex-shrink:0;background:#FFF4D6;color:#946600;font-size:15px;font-weight:700;padding:8px 12px;border-radius:8px;white-space:nowrap}
+.flow-arrow{flex-shrink:0;color:#B0B8C1;font-size:15px}
+
+.bar-row{display:flex;align-items:center;gap:8px;font-size:15px;margin-bottom:7px}
+.bar-lbl{width:36px;color:#8B95A1;font-weight:600}
+.bar-track{flex:1;height:10px;background:#EEF0F3;border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;transition:width 0.4s ease}
+.bar-cnt{width:38px;text-align:right;color:#191F28;font-weight:600;font-size:15px}
+
+.voc-comment{background:#FAFBFC;border-radius:10px;padding:11px 13px;margin-top:7px;border-left:3px solid #F5B100;font-size:15px;color:#191F28;line-height:1.55}
+.voc-comment-l{font-size:15px;color:#8B95A1;margin-bottom:3px;font-weight:600}
+
+.stat-big{font-size:48px;font-weight:700;color:#F5B100;text-align:center;margin:8px 0 4px;letter-spacing:-1.8px}
+.stat-cap{font-size:15px;color:#8B95A1;text-align:center;margin:0;font-weight:500}
+
+.signal-row{display:flex;gap:8px;margin-top:10px}
+.signal-card{flex:1;background:#FAFBFC;border-radius:10px;padding:12px;text-align:center}
+.signal-num{font-size:22px;font-weight:700;color:#191F28;letter-spacing:-0.5px}
+.signal-cap{font-size:15px;color:#6B7684;margin-top:4px;font-weight:500}
+.signal-card.warn .signal-num{color:#D32F2F}
+.signal-card.ok .signal-num{color:#2E7D32}
+
+.boxplot-svg{width:100%;height:140px}
+.five-num{display:flex;justify-content:space-between;margin-top:10px;padding:0 4px;font-size:15px}
+.five-num-item{text-align:center}
+.five-num-l{color:#8B95A1;font-weight:600;font-size:15px;display:block;margin-bottom:2px}
+.five-num-v{color:#191F28;font-weight:700;font-size:15px}
+
+/* Bottom navigation */
+.slide-nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,rgba(242,244,246,0) 0%,rgba(242,244,246,0.95) 30%,#F2F4F6 100%);max-width:430px;margin:0 auto;z-index:90}
+.nav-btn{flex:1;padding:14px 0;border-radius:12px;font-size:15px;font-weight:700;border:none;transition:all 0.18s ease;letter-spacing:-0.2px}
+.nav-btn.prev{background:#EEF0F3;color:#4E5968;flex:0 0 88px}
+.nav-btn.next{background:#3182F6;color:#fff}
+.nav-btn.next.gold{background:#F5B100;color:#191F28}
+.nav-btn:disabled{opacity:0.4;cursor:not-allowed}
+.nav-btn:active:not(:disabled){transform:scale(0.97)}
+
+/* For deep tab consistency */
+.intro-list{margin:0;padding:0;list-style:none}
+.intro-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid #EEF0F3;font-size:15px;color:#191F28;line-height:1.6}
+.intro-item:last-child{border-bottom:none;padding-bottom:0}
+.intro-item:first-child{padding-top:0}
+.intro-dot{flex-shrink:0;width:6px;height:6px;background:#F5B100;border-radius:50%;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="statusbar">
+    <span class="time" id="clock">9:41</span>
+    <span class="brand">운영튜터</span>
+  </div>
+
+  <div class="tabbar" role="tablist">
+    <button class="tab active" data-tab="home" role="tab">홈</button>
+    <button class="tab" data-tab="deep" role="tab">심화</button>
+    <button class="tab" data-tab="dict" role="tab">단어장</button>
+  </div>
+
+  <section class="section" data-section="home">
+    <div id="home-menu">
+      <div class="hero">
+        <p class="hi">운영자를 위한</p>
+        <p class="hero-h"><span class="hl">기본 분석 4가지,</span><br>한 화면씩 익혀볼까요?</p>
+        <p class="hero-sub">한 카드를 누르면 한 화면에 한 개념씩,<br>슬라이드로 천천히 학습할 수 있어요.</p>
+      </div>
+      <div id="topic-buttons"></div>
+    </div>
+    <div id="home-slides" class="slide-mode" hidden></div>
+  </section>
+
+  <section class="section" data-section="deep" hidden>
+    <div id="deep-menu">
+      <div class="hero">
+        <p class="hi">꼭 알아야 할</p>
+        <p class="hero-h"><span class="hl">데이터 분석 이론,</span><br>핵심만</p>
+        <p class="hero-sub">5단계 흐름과 통합 사례로<br>이론의 핵심을 슬라이드로 익혀요.</p>
+      </div>
+      <div id="step-buttons"></div>
+      <div class="warn">
+        <p class="warn-h">⚠ 작은 표본의 함정</p>
+        <p class="warn-p">친구 5명에게 물어본 결과로 학교 전체를 판단하면 안 돼요. 숫자가 적을수록 우연이 끼어들 확률이 커지거든요.</p>
+      </div>
+    </div>
+    <div id="deep-slides" class="slide-mode" hidden></div>
+  </section>
+
+  <section class="section" data-section="dict" hidden>
+    <div class="hero">
+      <p class="hi">모르는 말이 있나요?</p>
+      <p class="hero-h">데이터 <span class="hl">단어장</span></p>
+      <p class="hero-sub">분석에서 자주 만나는 모든 단어를<br>예시와 함께 정리했어요.</p>
+    </div>
+    <input class="search" id="dict-search" type="text" placeholder="단어를 검색해보세요" autocomplete="off">
+    <div class="chips" id="chips"></div>
+    <div id="word-list"></div>
+    <div class="empty" id="empty" hidden>검색 결과가 없어요</div>
+    <div class="footer-pad"></div>
+  </section>
+</div>
+
+<div class="slide-nav" id="slide-nav" hidden>
+  <button class="nav-btn prev" id="btn-prev">이전</button>
+  <button class="nav-btn next" id="btn-next">다음</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<script id="data-and-app">
+'use strict';
+
+const GOLD='#F5B100',GOLD_SOFT='#FFD970',GOLD_LIGHT='#FFF4D6',BLUE='#3182F6',BLUE_SOFT='#5C9CFA',BLUE_LIGHT='#E8F2FE',BLUE_DARK='#1F73D9',GRAY='#D1D6DB',GRAY_DARK='#8B95A1',GRAY_BG='#EEF0F3',TEXT='#6B7684',INK='#191F28',GREEN='#2E7D32',RED='#D32F2F';
+
+if(window.ChartDataLabels)Chart.register(ChartDataLabels);
+
+/* ==========================================================
+   TOPICS DATA - 4 기본 분석 도구
+   각 사례마다 여러 view (다양한 시각화)
+   ========================================================== */
+const TOPICS={
+dist:{name:'분포',badge:'01',sub:'누구의 숫자인지 보기',
+  intro:{
+    h:'평균 한 줄 뒤에 숨은 진짜 모습',
+    p:'분포는 데이터를 한 줄로 압축한 평균 뒤에 어떤 모습이 숨어 있는지 펼쳐서 보는 도구예요.',
+    analogy:'한 그릇의 비빔밥에서 평균을 보면 모든 재료가 똑같이 들어 있는 것 같지만, 실제로는 한쪽에 콩나물이 잔뜩, 다른 쪽엔 고추장만 있을 수 있어요. 펼쳐 봐야 진짜 모습이 보여요.'
+  },
+  when:[
+    {t:'평균만 적힌 보고서를 받았을 때',d:'"평균 3권 읽었어요"라는 한 줄 결과를 받았다면, 그 안의 분포를 의심해 보세요.'},
+    {t:'전체적으로 괜찮다는 말이 의심스러울 때',d:'"전체적으로 잘 되고 있어요"라는 표현은 양 끝의 그룹을 가릴 수 있어요.'},
+    {t:'같은 결과를 사람마다 다르게 느낄 때',d:'한쪽 그룹은 만족, 다른 그룹은 불만이라면 평균은 가운데이지만 실제 그룹은 양 끝에 있어요.'}
+  ],
+  cases:[
+    {n:'사례 1',title:'우리 반의 독서왕',
+      bg:'6학년 1반 30명, 한 달에 평균 3권을 읽었다고 학교 게시판에 발표가 났어요. "한 달에 3권은 적당하다"고 생각하기 쉽죠.',
+      views:[
+        {label:'먼저, 평균만 보기',chart:{type:'dist',mode:'avgOnly'},msg:'평균 3권. 모두 비슷한 것 같죠?',hintL:'평균은 압축된 한 줄',hint:'30명 모두가 똑같이 3권씩 읽은 것처럼 보이지만, 실제로 그렇게 읽은 친구는 한 명도 없을 수 있어요.'},
+        {label:'한 명씩 펼쳐보기',chart:{type:'dist',mode:'distribution'},msg:'한 친구가 50권을 읽었어요',hintL:'평균이 가린 진짜 모습',hint:'나머지 29명은 평균 1.4권만 읽었어요. "독서가 활발한 반"이 아니라 "한 명만 활발하고 나머지는 거의 안 읽는 반"이었던 거죠.'},
+        {label:'점으로 흩뿌려보기',chart:{type:'dist',mode:'dotplot'},msg:'한 점이 멀리 떨어져 있죠?',hintL:'이런 값을 "이상치"라고 불러요',hint:'대부분은 0~3권에 모여 있는데 한 점만 50권으로 멀리 떨어져 있어요. 평균은 이런 한 점에 크게 끌려가는 약점이 있어요.'}
+      ],
+      observe:'한 친구가 50권을 읽었고, 나머지 29명은 평균 1.4권만 읽고 있었어요.',
+      insight:'평균 3권은 한 명의 헌신이 만들어낸 결과였어요. 진짜 문제는 "독서가 부족한 게 아니라, 안 읽는 친구들이 너무 많다"는 거예요.',
+      action:'전체에게 "더 읽자"가 아니라, 안 읽는 29명에게 왜 안 읽는지부터 물어봐야 해요.'},
+    {n:'사례 2',title:'학원 시험 평균 79점',
+      bg:'한 학원 모의고사 평균이 79점이라고 발표됐어요. 학원장은 "우리 학생들 실력이 좋다"고 자랑했죠.',
+      views:[
+        {label:'평균만 보기',chart:{type:'twoPeak',mode:'avgOnly'},msg:'평균 79점. 꽤 높네요',hintL:'하지만 79점 받은 학생은 몇 명일까요?',hint:'평균이 79점이라는 건 모두가 79점쯤이라는 뜻일까요? 다음 화면에서 확인해 봐요.'},
+        {label:'점수대별 인원 펼쳐보기',chart:{type:'twoPeak',mode:'distribution'},msg:'80점대 학생은 한 명도 없어요',hintL:'두 봉우리로 갈라진 분포',hint:'90점 이상이 16명, 70점 이하가 14명. 평균만 79점일 뿐, 실제로 79점 근처인 학생은 없어요. 잘하는 그룹과 못하는 그룹으로 갈라져 있는 거죠.'}
+      ],
+      observe:'점수가 두 봉우리로 갈라진 양극화 분포였어요. 평균 79점은 두 그룹의 가중 평균에 불과했어요.',
+      insight:'한 반에 모아 같이 가르치면 둘 다 손해예요. "잘하는 그룹"은 지루하고, "못하는 그룹"은 따라가기 어려워요.',
+      action:'수준별 분반이나 두 그룹에 다른 처방이 필요해요. 평균만 보고 만든 일괄 커리큘럼은 양쪽 모두 못 잡아요.'},
+    {n:'사례 3',title:'한 달 용돈 평균 3만 3천 원',
+      bg:'5학년 친구 25명에게 한 달 용돈을 물었더니 평균이 약 3만 3천 원으로 나왔어요. "평범한 5학년은 3만 원쯤 받겠구나" 생각하기 쉽죠.',
+      views:[
+        {label:'평균만 보기',chart:{type:'concentration',mode:'avgOnly'},msg:'평균 3만 3천 원',hintL:'정말 다들 비슷하게 받을까요?',hint:'평균만 보면 "다들 그쯤 받는구나"라고 결론 내기 쉬워요. 하지만 진짜 가운데 값(중앙값)은 다를 수 있어요.'},
+        {label:'구간별로 펼쳐보기',chart:{type:'concentration',mode:'distribution'},msg:'1만 원 이하 받는 친구가 가장 많아요',hintL:'평균은 큰 숫자에 끌려가요',hint:'10명은 1만 원 이하, 7명은 1~3만 원, 8명은 5만 원 초과. "평균 3만 3천 원" 받는 친구는 한 명도 없어요. 중앙값은 1만 원이에요.'}
+      ],
+      observe:'평균은 3만 3천 원이지만 중앙값은 1만 원. 큰 용돈 받는 8명이 평균을 두 배 이상 끌어올린 거예요.',
+      insight:'평균은 큰 숫자에 끌려가는 풍선 같아요. 데이터가 한쪽으로 치우치면 평균은 가운데가 아니라 위쪽에 떠올라요.',
+      action:'한쪽으로 치우친 데이터는 평균 대신 중앙값을 봐요. "보통 5학년 용돈"을 알고 싶다면 1만 원이 더 정확해요.'}
+  ],
+  howto:[
+    {t:'평균만 적힌 데이터를 의심하기',d:'평균 한 줄로 결론 내지 말고 "그래서 분포는?"이라고 한 번 더 물어봐요.'},
+    {t:'데이터를 펼쳐서 그래프로 그리기',d:'막대 그래프나 점 분포로 그리면 평균이 가린 진실이 보여요.'},
+    {t:'몰린 그룹과 떨어진 그룹 찾기',d:'대부분 어디에 모여 있는지, 누가 따로 떨어져 있는지를 봐요.'},
+    {t:'그룹별로 다른 처방 만들기',d:'전체에 같은 처방을 내리지 말고, 그룹마다 다른 답을 만들어요.'}
+  ],
+  pitfalls:[
+    {t:'평균만 보고 전체를 판단하기',d:'평균 3권이라고 모두가 3권 읽은 게 아니에요. 분포를 펼쳐 보세요.'},
+    {t:'튀는 값을 무시하고 빼버리기',d:'한 명의 50권은 진짜 의미 있는 데이터일 수 있어요. 빼기 전에 왜 튀는지 살펴보세요.'},
+    {t:'중간에 몰려 있겠지 추측하기',d:'추측 말고 그래프로 직접 그려서 확인해야 해요.'}
+  ],
+  insight:'평균은 압축된 한 줄이고, 분포는 그 압축을 다시 펼치는 일이에요. 평균만 믿으면 정반대 처방을 내릴 수 있어요.'
+},
+trend:{name:'추세',badge:'02',sub:'어디로 가고 있는지 보기',
+  intro:{
+    h:'한 점은 사진, 추세는 영화',
+    p:'한 시점의 숫자만 보지 말고, 시간 순으로 줄 세워서 방향과 속도를 보는 도구예요.',
+    analogy:'한 사진으로는 그 사람이 웃고 있는지만 알 수 있지만, 영상으로 보면 웃다가 우는 중인지, 울다가 웃는 중인지가 보여요. 같은 표정이라도 의미가 정반대일 수 있어요.'
+  },
+  when:[
+    {t:'"이번 달 ___" 한 줄 보고를 받았을 때',d:'한 시점만 보면 흐름이 안 보여요. 최소 3~6개월을 같이 봐야 해요.'},
+    {t:'"괜찮은 것 같다"가 진짜 괜찮은지 확인할 때',d:'지금은 괜찮아 보여도 계속 내려가는 중이면 위험 신호예요.'},
+    {t:'문제가 언제부터 시작됐는지 알고 싶을 때',d:'추세선이 꺾인 변곡점을 찾으면 원인을 추적할 수 있어요.'}
+  ],
+  cases:[
+    {n:'사례 1',title:'책 읽기 동아리, 6개월의 흐름',
+      bg:'우리 학교 책 읽기 동아리. 이번 달 멤버들이 평균 2권씩 읽었어요. "2권이면 적당하지" 생각하기 쉽죠.',
+      views:[
+        {label:'이번 달만 보기',chart:{type:'trendDecline',mode:'point'},msg:'이번 달 2권. 적당해 보이죠?',hintL:'한 점만 보면 멈춰 있는 것 같아요',hint:'2권이라는 한 점만 보면 "괜찮다"고 결론 내기 쉬워요. 하지만 6개월 흐름을 같이 봐야 진짜 의미가 드러나요.'},
+        {label:'6개월을 펼쳐보기',chart:{type:'trendDecline',mode:'line'},msg:'8 → 7 → 5 → 4 → 3 → 2권으로 추락',hintL:'같은 2권, 정반대의 의미',hint:'6개월간 계속 내려가고 있었어요. 같은 2권이지만 "안정"이 아니라 "위기"였어요. 한 시점은 사진이지만, 추세는 영화예요.'}
+      ],
+      observe:'6개월간 8권에서 2권으로 75% 감소. 단순한 한 시점 결과가 아니라 위기 신호였어요.',
+      insight:'한 점은 사진, 추세는 영화예요. 사진만 보면 멈춰 있는 것 같지만, 영화로 보면 어디로 가고 있는지가 보여요.',
+      action:'단순히 "더 읽자"가 아니라 흐름이 꺾인 시점부터 무슨 일이 있었는지를 짚어야 해요.'},
+    {n:'사례 2',title:'스마트폰 사용 시간, 평균 3시간?',
+      bg:'5학년 학생의 스마트폰 사용 시간 일주일 평균이 3.1시간이라고 나왔어요. 부모님은 "하루 3시간이면 좀 많네"라고 걱정하시죠.',
+      views:[
+        {label:'평균만 보기',chart:{type:'trendWeekend',mode:'avg'},msg:'주 평균 3.1시간',hintL:'매일 3시간씩 쓰는 걸까요?',hint:'평균은 시간을 평평하게 만들어요. 진짜로 매일 비슷하게 쓰는지는 요일별로 펼쳐 봐야 알 수 있어요.'},
+        {label:'요일별로 펼쳐보기',chart:{type:'trendWeekend',mode:'bar'},msg:'평일 2시간, 주말 5~6시간',hintL:'평균이 가린 패턴',hint:'평일은 모두 2시간이지만 주말에 급증해요. "매일 3시간"이 아니라 "주말에 몰려 쓰는" 패턴이었어요.'}
+      ],
+      observe:'평일은 일정한 2시간, 주말은 5~6시간으로 급증. 평균은 이 차이를 가렸어요.',
+      insight:'평균은 시간 차이를 평평하게 눌러요. 추세를 봐야 "언제 몰리는지" 패턴이 보여요.',
+      action:'평일 사용을 줄이는 처방은 효과 없어요. 주말 사용 패턴을 바꾸는 처방이 필요해요.'},
+    {n:'사례 3',title:'키, 잘 자라고 있나요?',
+      bg:'5학년 학생, 이번 달 키가 147.5cm. 친구들 평균 148cm라 "혹시 작은 거 아닌가?" 걱정이 됐어요.',
+      views:[
+        {label:'친구와 비교만',chart:{type:'trendGrowth',mode:'compare'},msg:'친구 평균 148, 본인 147.5cm',hintL:'0.5cm 차이, 작은 걸까요?',hint:'한 시점에서 친구와 비교하면 0.5cm 작아 보여요. 하지만 본인의 6개월 흐름을 보면 다른 결론이 나와요.'},
+        {label:'6개월 성장 추이',chart:{type:'trendGrowth',mode:'growth'},msg:'매달 0.5cm씩 꾸준히 자라는 중',hintL:'친구와 다른 출발선이었어요',hint:'1월 145cm → 6월 147.5cm. 매달 0.5cm씩 정상적으로 자라고 있어요. 친구보다 작은 게 아니라 출발 키가 달랐을 뿐이에요.'}
+      ],
+      observe:'성장 속도는 매달 0.5cm로 정상. 친구와의 절대 차이는 출발 키 차이에서 온 거예요.',
+      insight:'한 시점의 비교는 정지 화면일 뿐이에요. 흐름을 보면 "느린 게 아니라 다른 출발선이었다"는 사실이 드러나요.',
+      action:'친구와 비교한 절대값보다, 자신의 성장 곡선이 끊기지 않는지가 더 중요해요. 끊기면 그때 원인을 찾아요.'}
+  ],
+  howto:[
+    {t:'시간 순서로 데이터 모으기',d:'최소 3~6개 시점이 필요해요. 한 점만으로는 추세가 안 그려져요.'},
+    {t:'그래프로 그어보기',d:'선 그래프가 가장 직관적. 점들을 연결해서 방향을 봐요.'},
+    {t:'방향과 속도 함께 보기',d:'올라가는지 내려가는지(방향), 천천히인지 빠르게인지(속도)까지 봐요.'},
+    {t:'꺾인 시점 찾아 원인 파고들기',d:'갑자기 방향이 바뀐 변곡점이 있다면, 그 시점에 무슨 일이 있었는지 봐요.'}
+  ],
+  pitfalls:[
+    {t:'한 시점 결과로 단정하기',d:'이번 달 결과만 보고 "괜찮다/심각하다" 결론 내지 마세요.'},
+    {t:'단기 변동을 큰 변화로 착각하기',d:'한두 달의 변동은 우연일 수 있어요. 최소 3개월은 봐야 해요.'},
+    {t:'꺾이는 시점 놓치고 원인 못 찾기',d:'변곡점을 찾으면 그 시점의 사건이 원인일 수 있어요.'}
+  ],
+  insight:'한 점은 사진, 추세는 영화예요. 같은 숫자도 오르는 중인지 내리는 중인지에 따라 정반대의 행동이 필요해요.'
+},
+corr:{name:'상관',badge:'03',sub:'함께 움직이는 것 찾기',
+  intro:{
+    h:'두 숫자를 나란히 놓고 보기',
+    p:'한 숫자만 봐서는 "왜 그런지" 알 수 없을 때, 옆에 다른 숫자를 놓으면 이유의 실마리가 보이는 도구예요.',
+    analogy:'시소를 두 사람이 같이 타면 한 명이 내려갈 때 다른 한 명이 올라가요. 두 숫자도 시소처럼 같이 움직이는지 보면 둘 사이의 관계가 보여요.'
+  },
+  when:[
+    {t:'결과가 왜 변했는지 모를 때',d:'결과 옆에 영향을 줬을 만한 다른 숫자를 놓으면 실마리가 보여요.'},
+    {t:'어떤 행동이 진짜 효과 있는지 확인할 때',d:'한 행동이 늘어날 때 결과도 같이 변하는지 보면 효과가 보여요.'},
+    {t:'미리 신호를 잡아 대응하고 싶을 때',d:'결과보다 먼저 움직이는 숫자(선행지표)를 찾으면 미리 대응할 수 있어요.'}
+  ],
+  cases:[
+    {n:'사례 1',title:'아이스크림 가게의 일주일',
+      bg:'아이스크림 가게에서 일주일 판매량을 봤더니 월요일 80개, 금요일 220개로 들쭉날쭉했어요. "왜 이렇게 다르지?" 궁금했죠.',
+      views:[
+        {label:'판매량만 보기',chart:{type:'corrIce',mode:'salesOnly'},msg:'월 80개, 금 220개. 왜?',hintL:'한 숫자만 보면 이유가 안 보여요',hint:'판매량이 들쭉날쭉한 건 알겠는데, 왜 그런지는 알 수 없어요. 옆에 다른 숫자를 놓아 봐야 해요.'},
+        {label:'기온도 같이 보기',chart:{type:'corrIce',mode:'twoLine'},msg:'두 선이 같이 춤춰요',hintL:'기온이 오르면 판매도 오름',hint:'기온을 같이 그려보니, 두 선이 거의 똑같이 움직였어요. 기온이 판매량의 단서였던 거죠.'},
+        {label:'점으로 흩뿌려보기',chart:{type:'corrIce',mode:'scatter'},msg:'점들이 줄지어 올라가요',hintL:'산점도로 더 명확하게',hint:'각 날을 한 점으로 놓고 가로=기온, 세로=판매량으로 그렸어요. 점들이 우측 상향으로 줄지어 있으면 강한 양의 상관이에요.'}
+      ],
+      observe:'기온과 판매량이 거의 일치한 흐름으로 움직였어요. 기온은 판매량의 강력한 선행 지표였죠.',
+      insight:'기온이라는 신호로 판매량을 미리 예측할 수 있어요. 기상청 예보 → 재고 준비라는 자동 대응이 가능해져요.',
+      action:'기상청 주간 예보를 영업 회의에 넣으세요. 폭염 예보 + 평일 = 추가 발주 신호예요.'},
+    {n:'사례 2',title:'공부 시간과 시험 점수',
+      bg:'5학년 친구 8명의 어제 공부 시간과 오늘 시험 점수를 모아봤어요. "공부 많이 한 친구가 진짜 잘 봤을까?"',
+      views:[
+        {label:'점수만 줄세우기',chart:{type:'corrStudy',mode:'sortedScore'},msg:'점수가 50~90점으로 다양해요',hintL:'점수만 보면 이유가 안 보여요',hint:'어떤 친구는 50점, 어떤 친구는 90점. 차이가 큰 건 알지만 왜 그런지는 모르죠. 다른 숫자를 옆에 놓아 봐요.'},
+        {label:'공부 시간과 같이 보기',chart:{type:'corrStudy',mode:'scatter'},msg:'점들이 줄지어 올라가요',hintL:'공부 시간이 늘면 점수도 늘어요',hint:'1시간 공부 → 50점대, 5시간 공부 → 90점대. 점들이 오른쪽 위로 줄지어 올라가는 강한 양의 상관이에요.'}
+      ],
+      observe:'공부 시간이 1시간 늘 때마다 점수가 약 8~10점씩 오르는 패턴이 보였어요.',
+      insight:'공부 시간은 시험 점수에 영향을 주는 강한 변수예요. 정확한 영향 크기는 회귀 분석으로 확인할 수 있어요.',
+      action:'시험 전 공부 시간을 1시간씩 늘리는 계획을 세우고, 다음 시험에서 점수 변화를 확인해 보세요.'},
+    {n:'사례 3',title:'비 오는 양과 우산 판매',
+      bg:'문구점에서 우산을 파는데, 어떤 날은 5개도 안 팔리고 어떤 날은 80개가 팔려요. 어떻게 재고를 관리해야 할지 막막했죠.',
+      views:[
+        {label:'우산 판매만',chart:{type:'corrUmbrella',mode:'salesOnly'},msg:'5개~80개 들쭉날쭉',hintL:'무엇이 차이를 만드는지?',hint:'판매가 들쭉날쭉한 건 보이지만 무엇 때문인지는 알 수 없어요. 강수량을 옆에 놓아 봐요.'},
+        {label:'강수량도 같이',chart:{type:'corrUmbrella',mode:'twoVar'},msg:'비 많은 날 우산도 많이 팔려요',hintL:'비는 우산의 선행 지표',hint:'비가 안 오는 날 5개, 5mm 비 30개, 20mm 폭우 80개. 강수량과 우산 판매가 같은 방향으로 움직여요.'}
+      ],
+      observe:'강수량이 우산 판매의 강력한 선행 지표였어요. 비 예보가 곧 판매 예측이에요.',
+      insight:'기상 예보를 미리 보면 우산 재고를 준비할 수 있어요. 강수량은 판매에 앞서 움직이는 지표예요.',
+      action:'주간 강수 예보 → 5mm 이상 예보 → 우산 재고 30개 이상 준비. 자동 대응 룰을 만들 수 있어요.'}
+  ],
+  howto:[
+    {t:'결과 숫자(궁금한 것) 정하기',d:'먼저 "내가 알고 싶은 결과"를 명확히 해요. 판매량, 점수, 출석률 등.'},
+    {t:'원인일 것 같은 후보 숫자 옆에 놓기',d:'기온, 공부 시간, 강수량처럼 영향을 줄 수 있는 숫자를 모아요.'},
+    {t:'그래프로 같이 그어보기',d:'시간 순으로 두 선을 같이 그리거나, 한 점에 두 값을 표시한 산점도를 그려요.'},
+    {t:'같이 움직이면 가설로 만들기',d:'"A가 오르면 B도 오른다"는 가설로 시작. 인과인지는 추가 검증이 필요해요.'}
+  ],
+  pitfalls:[
+    {t:'상관을 인과로 단정하기',d:'아이스크림과 익사 사고가 같이 늘어도 한쪽이 원인은 아니에요. 둘 다 여름의 결과예요(교란변수).'},
+    {t:'한두 번으로 상관 결론 내기',d:'최소 7~10개 시점은 있어야 우연이 아닌 패턴인지 알 수 있어요.'},
+    {t:'시점이 다른 데이터 비교하기',d:'월요일 판매량과 금요일 기온을 비교하면 의미가 없어요. 같은 시점끼리 짝지어야 해요.'}
+  ],
+  insight:'한 숫자 옆에 다른 숫자를 놓으면 "왜?"의 실마리가 보여요. 다만 "같이 움직임"과 "원인"은 다른 이야기예요.'
+},
+voc:{name:'VOC',badge:'04',sub:'숫자가 말 못 하는 것',
+  intro:{
+    h:'사람의 진짜 목소리에서 이유를 찾기',
+    p:'숫자만 보지 말고 사람의 진짜 목소리를 듣는 도구예요. 별점·만족도는 결과이지만, "왜 그렇게 됐는지"는 사람의 말에서 나와요.',
+    analogy:'병원에서 체온 38도라는 숫자만 보면 열이 난다는 것만 알아요. 환자에게 "어디가 아프세요?"라고 물어봐야 진짜 원인이 나오죠. VOC도 같은 역할이에요.'
+  },
+  when:[
+    {t:'숫자는 좋은데 뭔가 불안할 때',d:'평균 4.8점 같은 극단적으로 좋은 점수도 위험 신호일 수 있어요.'},
+    {t:'숫자가 나쁜데 이유를 모를 때',d:'점수만으로는 왜 안 좋은지 알 수 없어요. 사람의 말에 답이 있어요.'},
+    {t:'새 변화를 시작하기 전에 의견 모을 때',d:'바꾸기 전에 의견을 들으면 큰 시행착오를 줄일 수 있어요.'}
+  ],
+  cases:[
+    {n:'사례 1',title:'학교 급식 별점 4.3',
+      bg:'학교 급식에 대해 학생 30명이 별점을 줬는데 평균 4.3점. "학생들이 만족하나 보다"라고 좋은 결과로 보였죠.',
+      views:[
+        {label:'평균만 보기',chart:{type:'vocLunch',mode:'avg'},msg:'평균 ★ 4.3',hintL:'4.3점, 만족인 것 같죠?',hint:'평균만 보면 "다들 만족"이라고 결론 내기 쉬워요. 하지만 별점 분포와 자유 답변을 봐야 진짜가 보여요.'},
+        {label:'별점 분포 펼쳐보기',chart:{type:'vocLunch',mode:'dist'},msg:'5점 25명, 1점 5명, 가운데는 0명',hintL:'양극화 분포',hint:'평균 4.3점은 5점 그룹과 1점 그룹의 가중 평균이었어요. 4점·3점·2점은 한 명도 없는 갈라진 만족도였죠.'},
+        {label:'자유 답변 듣기',chart:{type:'vocLunch',mode:'comments'},msg:'"메뉴가 매번 똑같아요"',hintL:'숫자가 못 보여준 이유',hint:'1점 그룹은 메뉴 다양성과 양에 불만, 5점 그룹은 좋아하는 메뉴가 나올 때만 좋아한 거였어요. 별점만 봤다면 이 차이를 못 봤죠.'}
+      ],
+      observe:'평균은 4.3점이지만 5점 그룹과 1점 그룹으로 갈라진 양극화. 자유 답변에서 이유가 드러났어요.',
+      insight:'별점만 보면 "다들 만족"인데, 의견을 들으면 진짜 이유가 나와요. 5점 그룹은 좋아하는 메뉴가 나올 때만 별점을 준 거예요.',
+      action:'평균을 올리는 게 아니라, 1점 그룹 5명에게 직접 인터뷰해서 메뉴 다양화와 양 조절을 검토해야 해요.'},
+    {n:'사례 2',title:'학원 만족도 4.8점, 그런데...',
+      bg:'학원에서 학부모 만족도 설문을 했는데 5점 만점에 4.8점이 나왔어요. 학원장은 "최고 결과"라며 만족했죠.',
+      views:[
+        {label:'점수만 보기',chart:{type:'vocAcademy',mode:'score'},msg:'★ 4.8 / 5.0',hintL:'완벽에 가까운 점수',hint:'점수만 보면 더할 나위 없는 결과예요. 그런데 자유 답변을 보면 다른 신호가 보일 수 있어요.'},
+        {label:'자유 답변 들어보기',chart:{type:'vocAcademy',mode:'comments'},msg:'"다른 학원도 알아보고 있어요"',hintL:'점수 뒤의 위험 신호',hint:'"선생님이 그만두셨다", "수업 시간이 줄었다", "다른 곳도 본다" 같은 의견들이 등장했어요. 점수는 과거의 평가, 의견은 미래의 신호예요.'}
+      ],
+      observe:'점수는 4.8점으로 매우 높았지만, 자유 답변에는 이탈을 시사하는 신호가 깔려 있었어요.',
+      insight:'점수는 과거의 평가, 의견은 미래의 신호예요. 별점만 보고 안심하면 다음 분기에 이탈을 마주칠 수 있어요.',
+      action:'자유 답변에서 자주 등장하는 단어를 추적해야 해요. "그만두셨다", "다른 곳" 같은 단어는 이탈 위험 신호예요.'},
+    {n:'사례 3',title:'동아리 가입자 50명, 진짜 인기일까?',
+      bg:'학교 보드게임 동아리. 이번 학기 가입자 50명으로 사상 최대! 동아리 회장은 "올해 대박"이라며 신났어요.',
+      views:[
+        {label:'가입자만 보기',chart:{type:'vocClub',mode:'joined'},msg:'가입자 50명! 사상 최대',hintL:'겉 숫자는 좋아 보여요',hint:'가입자 수만 보면 인기 폭발이에요. 하지만 가입과 실제 활동은 다른 이야기일 수 있어요.'},
+        {label:'출석도 같이 보기',chart:{type:'vocClub',mode:'attendance'},msg:'실제 출석은 15명, 30%',hintL:'겉과 속의 격차',hint:'가입자 50명 중 매주 활동에 나오는 친구는 15명뿐. 출석률 30%였어요. 가입은 신호이지만 출석이 진짜 결과예요.'},
+        {label:'이유를 인터뷰',chart:{type:'vocClub',mode:'interview'},msg:'"막상 가니 너무 진지해서 무서워요"',hintL:'숫자가 답 못 하는 이유',hint:'결석한 친구를 인터뷰해 보니 분위기 차이가 큰 이유였어요. 신규 가입자용 입문 모임이 필요했던 거죠.'}
+      ],
+      observe:'가입자는 50명이지만 실제 활동은 15명. 인터뷰로 분위기 차이라는 이유를 발견했어요.',
+      insight:'겉 숫자(가입자)는 늘었지만 속 숫자(출석)는 안 따라왔어요. VOC가 그 간극의 이유를 알려줬죠.',
+      action:'신규 가입자용 입문 모임을 따로 운영하거나, 가입 전 분위기를 미리 알 수 있는 안내가 필요해요.'}
+  ],
+  howto:[
+    {t:'숫자가 너무 좋거나 나쁠 때 의심하기',d:'평균 4.8 같은 극단치는 진짜 만족이 아니라 양극화나 위험 신호일 수 있어요.'},
+    {t:'설문에 자유 답변 칸 꼭 넣기',d:'객관식만으로는 "왜"를 알 수 없어요. 짧은 한 줄이라도 자유 답변이 있어야 단서가 나와요.'},
+    {t:'점수 낮은 사람 직접 만나기',d:'평균이 아니라 양 끝(특히 낮은 쪽) 사람들과 짧게라도 대화해요.'},
+    {t:'반복되는 단어를 찾아 정리하기',d:'자유 답변에서 자주 등장하는 단어 3~5개를 뽑으면 진짜 이슈가 보여요.'}
+  ],
+  pitfalls:[
+    {t:'평균 점수만 보고 결론 내기',d:'평균이 좋아도 양극화일 수 있어요. 분포와 의견을 같이 봐야 해요.'},
+    {t:'자유 답변을 주관적이라고 무시하기',d:'주관이 모이면 패턴이 돼요. 같은 단어가 반복되면 그게 신호예요.'},
+    {t:'한두 명 의견을 전체 의견으로 부풀리기',d:'반복되는 단어가 중요해요. 한두 번 나온 의견은 가설로만 활용하세요.'}
+  ],
+  insight:'숫자는 "무엇이"를 알려주고, VOC는 "왜"를 알려줘요. 두 가지를 합쳐야 진짜 처방이 나와요.'
+}
+};
+
+
+/* ==========================================================
+   STEPS DATA - 심화 5단계 + 통합 사례
+   각 단계마다 도구 4~5개를 슬라이드로 분할 학습
+   ========================================================== */
+const STEPS={
+1:{name:'데이터 다루기',badge:'1단계',sub:'엉킨 숫자를 깔끔하게 정리하기',
+  intro:{
+    h:'분석은 정리부터',
+    p:'데이터가 깔끔해야 그 다음 분석이 의미 있어요. 분석 시간의 80%가 이 단계에 들어가요.',
+    analogy:'요리는 재료 손질이 80%예요. 흙 묻은 채소를 그냥 넣으면 아무리 좋은 레시피도 망쳐요. 데이터도 똑같아요.'
+  },
+  tools:[
+    {name:'결측치 채우기',en:'Missing Values',
+      def:'설문 항목 중 응답이 빈칸인 경우를 처리해요. 빼버릴지, 평균값으로 채울지, 0으로 둘지 미리 정해야 해요.',
+      mini:'30명에게 키를 물었는데 2명이 답을 안 했어요. 28명만으로 분석할 건지, 평균값으로 빈칸을 채울 건지 결정해야 해요.'},
+    {name:'이상치 처리',en:'Outliers',
+      def:'다른 값들과 너무 동떨어진 값을 어떻게 다룰지 정해요. 오타일 수도, 진짜 특이값일 수도 있어요.',
+      mini:'학생 키 데이터에 1750cm가 있다면 거의 확실히 175cm 오타예요. 50권 읽은 친구는 진짜 데이터일 수 있고요. 둘은 다르게 다뤄야 해요.'},
+    {name:'단위 정규화',en:'Normalization',
+      def:'다른 단위의 데이터를 비교 가능하게 맞춰요. cm와 inch가 섞여 있으면 한 가지로 통일해요.',
+      mini:'어떤 학생은 키를 cm로, 어떤 학생은 inch로 적었어요. 평균 내려면 모두 같은 단위로 바꿔야 해요.'},
+    {name:'데이터 시각화',en:'Visualization',
+      def:'정리한 데이터를 한 번 그래프로 그려서 큰 그림을 봐요. 이상한 값이나 빠진 부분이 한눈에 보여요.',
+      mini:'정리 끝났다고 생각해도 막대 그래프로 그려보면 갑자기 한 막대만 비정상적으로 큰 게 보일 수 있어요.'}
+  ],
+  case:{title:'학급 키 데이터, 한 명이 1750cm?',
+    bg:'5학년 1반 학생 6명의 키 데이터를 받았는데, 한 명이 1750cm로 입력되어 있었어요. 사람 키가 1750cm일 리는 없는데, 이걸 그대로 두고 분석하면 모든 결과가 무너져요.',
+    views:[
+      {label:'정리 전 데이터',chart:{type:'cleanData',mode:'before'},msg:'한 명이 1750cm! 비정상',hintL:'평균이 414cm로 망가져요',hint:'정리 전 평균을 내면 (145+148+1750+146+150+144)/6 = 414cm가 나와요. 비현실적인 값 하나가 전체 분석을 망친 거죠.'},
+      {label:'정리 후 데이터',chart:{type:'cleanData',mode:'after'},msg:'175cm로 수정 → 평균 151cm',hintL:'한 글자 차이가 큰 차이',hint:'1750을 175cm 오타로 보고 수정하니 평균이 151cm로 정상 범위에 들어왔어요. 1단계의 중요성이 보이죠?'}
+    ],
+    observe:'데이터 한 줄의 오타가 평균을 414cm까지 망가뜨렸어요. 정리만 잘 해도 분석이 정상으로 돌아왔어요.',
+    insight:'분석 전 데이터를 그래프로 한 번 그려보면 이상한 값은 한눈에 보여요. 이걸 안 거치면 그 다음 모든 분석이 무너져요.'},
+  connection:'데이터가 깨끗해야 다음 단계인 "기술 통계"가 의미 있는 평균과 분포를 보여줘요.',
+  summary:'데이터 분석은 손질부터예요. 80%의 시간을 정리에 써도 아깝지 않아요.'
+},
+2:{name:'기술 통계',badge:'2단계',sub:'데이터의 모양을 한눈에 요약',
+  intro:{
+    h:'한두 숫자로 모양 압축하기',
+    p:'정리된 데이터를 한두 개의 숫자로 요약해서 모양을 파악하는 단계예요. 홈 탭의 분포와 추세가 여기 속해요.',
+    analogy:'사람 30명을 일일이 기억하기 어렵지만 "평균 키 147cm, 대부분 140~155cm 사이"라고 요약하면 한 줄로 그림이 그려져요.'
+  },
+  tools:[
+    {name:'평균',en:'Mean',
+      def:'모든 값을 더한 다음 개수로 나눈 값. 가장 친숙한 대표값이지만 튀는 값에 약해요.',
+      mini:'30명 키 합계 / 30 = 평균. 하지만 한 명이 1750cm라면 평균이 망가져요.'},
+    {name:'중앙값',en:'Median',
+      def:'크기 순서로 줄 세웠을 때 정확히 가운데 있는 값. 튀는 값에 흔들리지 않아요.',
+      mini:'30명 키를 정렬해서 15~16번째 학생의 키. 1750cm 한 명이 있어도 중앙값은 그대로 146cm예요.'},
+    {name:'분산·표준편차',en:'Variance / SD',
+      def:'데이터가 평균에서 얼마나 흩어져 있는지를 나타내요. 표준편차가 작으면 비슷비슷, 크면 들쭉날쭉.',
+      mini:'한 반은 표준편차 2cm(키가 비슷), 다른 반은 8cm(키가 다양). 같은 평균이라도 분포가 달라요.'},
+    {name:'분포 그래프',en:'Distribution Chart',
+      def:'데이터를 막대 또는 히스토그램으로 그려 어디에 몰려 있는지 봐요. 평균만으로 못 보는 모양을 봐요.',
+      mini:'30명 키를 5cm 단위로 묶어 막대로 그리면 종 모양인지 양극화인지 한눈에 보여요.'}
+  ],
+  case:{title:'5학년 1반 키 분포 살펴보기',
+    bg:'정리한 학급 키 데이터(30명)를 한눈에 파악하고 싶어요. 평균만으로는 부족하고, 어떻게 흩어져 있는지도 같이 봐야 해요.',
+    views:[
+      {label:'평균만 보기',chart:{type:'classHeight',mode:'avg'},msg:'평균 147cm',hintL:'평균만으로는 모양을 알 수 없어요',hint:'평균 147cm라는 한 줄로는 30명이 비슷한지, 양극화인지 알 수 없어요. 분포 그래프와 같이 봐야 해요.'},
+      {label:'분포로 펼쳐보기',chart:{type:'classHeight',mode:'dist'},msg:'145~150cm에 12명이 몰려 있어요',hintL:'종 모양 분포',hint:'평균 147cm, 중앙값 146cm. 두 값이 비슷하면 한쪽으로 치우치지 않은 균형 잡힌 분포예요. 이런 종 모양을 정규분포에 가깝다고 해요.'}
+    ],
+    observe:'평균 147cm, 중앙값 146cm로 두 값이 비슷. 분포는 145~150cm에 가장 많이 몰린 종 모양이었어요.',
+    insight:'평균과 중앙값이 비슷하다는 건 데이터가 한쪽으로 치우치지 않았다는 뜻이에요. 이런 데이터는 평균을 대표값으로 써도 안전해요.'},
+  connection:'기술 통계로 "지금 우리 반은 이렇다"를 봤다면, 다음은 "이게 전국 평균과 비슷할까?"를 묻는 추론으로 가요.',
+  summary:'평균 하나로 끝내지 말고 평균·중앙값·분포까지 같이 봐야 진짜 모양이 보여요.'
+},
+3:{name:'추론과 검증',badge:'3단계',sub:'일부만 보고 전체를 판단하기',
+  intro:{
+    h:'30명으로 600명을 추측하기',
+    p:'전부 다 조사할 수는 없으니, 일부(표본)만 보고 전체(모집단)를 추측해요. "확실하다"가 아니라 "어느 정도 확률로 그렇다"고 말해줘요.',
+    analogy:'국 한 숟가락을 떠 먹어보고 전체 맛을 짐작하는 것과 같아요. 한 숟가락(표본)이 너무 작으면 짠지 싱거운지 판단이 흔들려요. 충분히 떠봐야 정확해요.'
+  },
+  tools:[
+    {name:'표본·모집단',en:'Sample / Population',
+      def:'알고 싶은 전체가 모집단, 그 중 실제로 본 일부가 표본. 표본은 작지만 잘 뽑으면 전체를 대표할 수 있어요.',
+      mini:'전국 6학년 600,000명이 모집단. 우리 학교 30명이 표본. 30명 평균으로 600,000명 평균을 추측해요.'},
+    {name:'가설검정',en:'Hypothesis Testing',
+      def:'두 그룹에 차이가 진짜 있는지, 우연인지를 통계로 판단하는 절차예요.',
+      mini:'A반 평균 80점, B반 평균 78점. 진짜 실력 차이일까요, 그날 운이 다른 우연일까요?'},
+    {name:'신뢰구간',en:'Confidence Interval',
+      def:'진짜 답이 들어 있을 가능성이 큰 범위를 알려줘요. "95% 신뢰구간 145~149cm"라면 진짜 평균이 그 안에 있을 가능성이 95%예요.',
+      mini:'30명 평균 147cm, 신뢰구간 ±3cm → 전국 평균은 144~150cm 사이일 가능성 95%.'},
+    {name:'p값',en:'P-value',
+      def:'관측한 차이가 우연으로 일어날 확률. 작을수록 진짜 차이일 가능성이 커요. 보통 0.05 미만이면 유의미하다고 봐요.',
+      mini:'p = 0.03 → 우연일 확률 3%. "진짜 차이가 있다"고 결론 낼 수 있어요.'}
+  ],
+  case:{title:'30명으로 전국 평균을 얼마나 정확히 추측할까?',
+    bg:'우리 반 30명 평균 키 147cm. 이걸로 전국 6학년 평균 키를 추측하고 싶어요. 30명만 본 결과를 얼마나 믿을 수 있을까요?',
+    views:[
+      {label:'30명만 봤을 때',chart:{type:'sampleSize',mode:'small'},msg:'오차 ±3cm. 진짜 답은 144~150 사이',hintL:'적게 보면 추측이 흐릿해요',hint:'30명만 보면 진짜 평균이 ±3cm 범위 어딘가에 있다는 정도까지만 말할 수 있어요. 우연이 끼어들 여지가 커요.'},
+      {label:'표본을 늘리면',chart:{type:'sampleSize',mode:'all'},msg:'1000명 보면 ±0.5cm까지 좁혀져요',hintL:'많이 볼수록 정확해져요',hint:'30명 → 100명 → 1000명으로 늘릴수록 추측 범위가 확 좁아져요. 무작정 많이가 아니라 100명만 봐도 충분히 좋은 추측이 가능해요.'}
+    ],
+    observe:'표본이 30 → 100 → 1000으로 늘면 오차가 ±3 → ±1.7 → ±0.5cm로 줄어들어요.',
+    insight:'적게 보면 우연이 끼어들기 쉽고, 많이 볼수록 진짜에 가까워져요. 다만 100명 정도만 잘 뽑으면 충분히 좋은 추측이 가능해요.'},
+  connection:'추론으로 "진짜 차이가 있다"고 확인되면, 다음은 응용 분석으로 "얼마나 영향 있는지"까지 깊게 들어가요.',
+  summary:'표본의 크기와 대표성이 추측의 정확도를 결정해요. 적은 표본의 결과는 항상 ±오차로 표현하세요.'
+},
+4:{name:'응용 분석',badge:'4단계',sub:'실제 문제에 도구를 조합해 적용',
+  intro:{
+    h:'상관에서 회귀로, 더 정확하게',
+    p:'홈 탭의 상관·추세를 더 깊고 정확하게 만든 도구들이에요. "얼마나 영향?", "그룹별로 어떻게 다른지?", "시간이 지나면서 누가 남는지?" 같은 질문에 답해요.',
+    analogy:'홈 탭이 "키와 발이 같이 자란다"라면, 응용 분석은 "키 1cm 자랄 때 발은 0.15mm 자란다"라고 정확히 말해주는 단계예요.'
+  },
+  tools:[
+    {name:'회귀',en:'Regression',
+      def:'한 숫자가 다른 숫자에 정확히 얼마나 영향을 주는지 직선(또는 곡선)으로 나타내요. 상관을 정량화한 도구예요.',
+      mini:'공부 1시간 → 점수 8점 상승, 같은 식으로 정확한 영향 크기를 알려줘요.'},
+    {name:'시계열 분석',en:'Time Series',
+      def:'시간 패턴을 분석해 계절성·변곡점·주기를 찾아요. 추세 분석을 더 깊게 만든 도구예요.',
+      mini:'아이스크림 매출은 매년 여름마다 오르는 계절성. 이 패턴을 알면 다음 여름을 예측할 수 있어요.'},
+    {name:'세그먼트 분석',en:'Segmentation',
+      def:'전체를 몇 그룹으로 나눠서 각 그룹의 특성을 따로 봐요. 평균이 가린 그룹별 차이를 발견해요.',
+      mini:'전체 평균은 4점이지만 1학년은 5점, 6학년은 3점. 학년별로 처방이 달라야 해요.'},
+    {name:'코호트 분석',en:'Cohort Analysis',
+      def:'같이 시작한 사람들이 시간이 지남에 따라 어떻게 변하는지 추적해요.',
+      mini:'3월 입학생들의 6개월 후 출석률을 4월 입학생과 비교. 입학 시점이 변수가 되는지 봐요.'},
+    {name:'퍼널 분석',en:'Funnel Analysis',
+      def:'단계별로 사람이 얼마나 빠져나가는지 보는 깔때기 분석. 어느 단계가 가장 큰 누수 지점인지 찾아요.',
+      mini:'동아리 가입 100명 → 첫 모임 60명 → 한 달 후 30명. 어디서 가장 많이 빠지는지 보여요.'}
+  ],
+  case:{title:'키와 발 사이즈, 얼마나 정확한 관계?',
+    bg:'키가 크면 발도 클까? 그냥 "그럴 것 같다"가 아니라 정확한 숫자로 알고 싶어요. 학생 9명의 키와 발 사이즈를 모았어요.',
+    views:[
+      {label:'점으로 흩뿌려보기',chart:{type:'regression',mode:'scatter'},msg:'점들이 우상향으로 줄지어요',hintL:'양의 상관이 보여요',hint:'각 학생을 한 점으로. 가로=키, 세로=발 사이즈. 점들이 오른쪽 위로 올라가는 패턴은 양의 상관을 의미해요.'},
+      {label:'회귀선 그어보기',chart:{type:'regression',mode:'line'},msg:'키 1cm → 발 1.5mm 증가',hintL:'정확한 영향 크기가 나와요',hint:'점들 사이로 가장 잘 맞는 직선을 그으면 그 기울기가 영향 크기예요. 키 150cm 학생의 발 사이즈를 미리 추측할 수 있어요.'}
+    ],
+    observe:'키와 발 사이즈가 직선 관계로 함께 자라요. 회귀선의 기울기로 정확한 변화량을 알 수 있어요.',
+    insight:'상관(같이 움직임)을 회귀(얼마나 움직이는지)로 바꾸면 예측이 가능해져요. 한 변수로 다른 변수를 미리 추측할 수 있어요.'},
+  connection:'숫자로 "얼마나 영향?"을 정량화했다면, 마지막은 "왜 그런지" 사람의 이야기를 듣는 정성 분석으로 마무리해요.',
+  summary:'홈 탭의 상관이 "방향"을 봤다면, 응용 분석은 "정확한 크기"까지 봐요.'
+},
+5:{name:'정성 분석',badge:'5단계',sub:'숫자 밖의 이야기 듣기',
+  intro:{
+    h:'사람의 진짜 목소리에서 답 찾기',
+    p:'숫자만으로는 답할 수 없는 "왜"를 사람의 말에서 찾는 단계예요. 홈 탭의 VOC가 이 단계의 핵심 도구예요.',
+    analogy:'병원에서 체온 38도라는 숫자만 보면 열이 난다는 것만 알아요. 환자에게 "어디가 아프세요?"라고 물어봐야 진짜 원인이 나오죠.'
+  },
+  tools:[
+    {name:'VOC 수집',en:'Voice of Customer',
+      def:'사용자의 목소리를 모으는 모든 활동. 자유 답변, 후기, 댓글, 1:1 대화 등이 모두 VOC예요.',
+      mini:'설문 자유 답변 칸에 적힌 한 줄, 익명 게시판 댓글 모두 소중한 VOC예요.'},
+    {name:'인터뷰',en:'Interview',
+      def:'한 명씩 깊게 대화하며 진짜 생각을 듣는 방법. 시간이 오래 걸리지만 깊이 있는 답이 나와요.',
+      mini:'30분 동안 한 학생과 대화하며 학원에 대한 진심을 듣기. 5명만 인터뷰해도 큰 단서가 나와요.'},
+    {name:'설문',en:'Survey',
+      def:'여러 명에게 같은 질문을 던져 답을 모으는 방법. 인터뷰보다 빠르고 양적으로 비교 가능해요.',
+      mini:'30명에게 같은 5문항 객관식 + 자유 답변 한 칸. 평균과 자유 답변을 같이 봐야 해요.'},
+    {name:'표집·표집편향',en:'Sampling / Bias',
+      def:'누구에게 물을지가 답을 결정해요. 활동에 나오는 사람만 인터뷰하면 그만둔 사람의 의견이 빠져요.',
+      mini:'동아리 출석자만 인터뷰하면 "다 만족"이라는 결론이 나오죠. 결석자도 꼭 같이 들어야 해요.'}
+  ],
+  case:{title:'"키가 잘 안 자라요" 인터뷰에서 발견',
+    bg:'학급 평균 키는 정상 범위인데, 우리 학교 5학년 키가 작년보다 작아진 듯한 느낌이 들었어요. 통계만으로는 이유를 알 수 없었죠.',
+    views:[
+      {label:'인터뷰 결과 듣기',chart:{type:'interviewQuotes',mode:'show'},msg:'10명 중 7명이 같은 단어를 말했어요',hintL:'반복되는 단어가 신호',hint:'10명을 인터뷰하니 "급식이 별로", "야식 라면", "운동 시간 줄었다"가 반복됐어요. 식습관·수면·운동이 진짜 원인이었던 거죠.'}
+    ],
+    observe:'10명 중 7명이 식습관·수면·운동을 언급. 숫자에는 없던 진짜 이유가 인터뷰에서 드러났어요.',
+    insight:'숫자는 키가 작아진 결과를 보여주지만, 사람의 말은 식습관과 운동 시간이라는 진짜 원인을 알려줘요. 두 가지를 합쳐야 처방이 만들어져요.'},
+  connection:'정성 분석으로 "왜"를 알게 되면 다시 1단계 데이터 다루기로 돌아가서, 식습관·운동 시간 데이터를 모아 분석하는 새 사이클이 시작돼요.',
+  summary:'숫자는 결과, VOC는 이유. 두 가지가 합쳐져야 처방이 완성돼요.'
+},
+0:{name:'5단계 통합 사례',badge:'통합',sub:'한 문제를 5단계로 풀어가기',
+  intro:{
+    h:'5단계는 따로가 아니라 하나의 흐름',
+    p:'5개 단계가 따로 있는 게 아니라, 하나의 문제를 풀 때 순서대로 흘러가요. 시력 데이터로 5단계가 어떻게 연결되는지 봐요.',
+    analogy:'요리 한 그릇이 만들어지려면 재료 손질 → 데치기 → 양념 → 끓이기 → 시식 5단계가 모두 필요해요. 한 단계만 잘하면 안 되죠. 분석도 같아요.'
+  },
+  tools:[
+    {name:'1단계 적용',en:'Cleaning',
+      def:'시력 데이터에서 0.0 같은 입력 오류, 빈칸을 정리해요. 정리 안 된 데이터는 평균을 망칠 수 있어요.',
+      mini:'전 학년 600명 중 시력 0.0으로 입력된 5명을 발견. 측정 오류로 판단해 제외하고 진행해요.'},
+    {name:'2단계 적용',en:'Descriptive Stats',
+      def:'학년별로 평균과 분포를 봐서 어디에 문제가 있는지 봐요.',
+      mini:'1~3학년 평균 1.0, 4~6학년 평균 0.7. 고학년에 시력 저하가 몰려 있다는 것이 보여요.'},
+    {name:'3단계 적용',en:'Inference',
+      def:'작년 데이터와 비교해 진짜 떨어진 건지, 측정 차이인지 검증해요.',
+      mini:'작년 같은 학년 평균과 비교. p값을 계산해서 "통계적으로 유의미한 하락"인지 확인해요.'},
+    {name:'4단계 적용',en:'Regression',
+      def:'스크린 시간과 시력의 관계를 회귀로 정량화해요. "1시간 늘면 시력이 얼마나 떨어지는지" 측정해요.',
+      mini:'회귀 결과 "스크린 1시간 → 시력 0.05 하락"이라는 정확한 영향 크기가 나왔어요.'},
+    {name:'5단계 적용',en:'Qualitative',
+      def:'스크린을 왜 오래 보는지 인터뷰해서 진짜 원인을 찾아요.',
+      mini:'학생 인터뷰 → 게임 시간 증가, 학원 영상 수업 증가 같은 구체적 원인 발견.'}
+  ],
+  case:{title:'전 학년 시력 데이터, 5단계로 풀기',
+    bg:'학교 보건 선생님이 전 학년 600명의 시력 검사 데이터를 가져왔어요. "올해 시력이 작년보다 안 좋아진 것 같다"는 느낌만 있을 뿐, 진짜인지 모르는 상태였어요.',
+    views:[
+      {label:'5단계 흐름 보기',chart:{type:'flowDiagram',mode:'show'},msg:'5단계가 하나의 흐름으로 이어져요',hintL:'한 단계만 쓰면 절반의 답',hint:'1단계 정리 → 2단계 분포 → 3단계 검증 → 4단계 회귀 → 5단계 인터뷰. 각 단계가 다음 단계의 질문을 만들어요.'}
+    ],
+    observe:'5단계를 차례로 적용해 "정말 나빠졌나? → 누가 더 나빠졌나? → 왜? → 얼마나? → 진짜 이유는?"의 답을 모두 얻었어요.',
+    insight:'한 단계만 쓰면 절반의 답만 나와요. 5단계가 모두 연결될 때 비로소 "무엇이 → 얼마나 → 왜" 모두 답할 수 있는 처방이 만들어져요.'},
+  connection:'분석은 한 번에 끝이 아니라, 처방을 적용한 뒤 다시 1단계로 돌아오는 사이클이에요.',
+  summary:'5단계를 다 거쳐야 진짜 답이 나와요. 한 단계 빼면 처방도 비어요.'
+}
+};
+
+
+/* ==========================================================
+   WORDS DATA (43개)
+   ========================================================== */
+const WORDS=[
+{ko:'평균',en:'Mean',cat:'기초',d:'모든 숫자를 다 더한 다음 개수로 나눈 값.',ex:'1, 2, 3 → (1+2+3)÷3 = 2'},
+{ko:'중앙값',en:'Median',cat:'기초',d:'크기 순서로 줄 세웠을 때 정확히 가운데 있는 값. 한 명이 튀어도 흔들리지 않아요.',ex:'1, 2, 3, 4, 100 → 중앙값은 3 (평균은 22)'},
+{ko:'최빈값',en:'Mode',cat:'기초',d:'가장 자주 나오는 값.',ex:'2, 3, 3, 5, 7 → 최빈값은 3'},
+{ko:'표본',en:'Sample',cat:'기초',d:'전체 중에서 일부만 뽑아낸 것. 적게 뽑으면 진짜 모습과 달라질 수 있어요.',ex:'전국 6학년 중 우리 반 30명만 조사 → 표본 30명'},
+{ko:'모집단',en:'Population',cat:'기초',d:'알고 싶은 전체 대상. 표본은 모집단의 일부예요.',ex:'전국 6학년 = 모집단, 우리 반 30명 = 표본'},
+{ko:'변수',en:'Variable',cat:'기초',d:'사람마다 값이 달라질 수 있는 항목.',ex:'키, 몸무게, 시험 점수처럼 사람마다 다른 것'},
+{ko:'데이터',en:'Data',cat:'기초',d:'어떤 사실을 숫자나 글자로 적어둔 것.',ex:'30명의 키 측정값 = 데이터 30개'},
+{ko:'빈도',en:'Frequency',cat:'기초',d:'어떤 값이 몇 번 나타났는지 센 횟수.',ex:'시험에서 90점 받은 사람이 5명 → 90점의 빈도는 5'},
+{ko:'분포',en:'Distribution',cat:'분포',d:'숫자가 어디에 얼마나 모여 있는지 보여주는 모양.',ex:'평균 80점이지만 60점·100점에 몰린 분포 vs 모두 80점 근처인 분포'},
+{ko:'편차',en:'Deviation',cat:'분포',d:'한 값이 평균에서 얼마나 떨어져 있는지를 나타내는 거리.',ex:'평균 50, 한 값이 70 → 편차는 +20'},
+{ko:'분산',en:'Variance',cat:'분포',d:'편차들을 제곱해서 평균 낸 값. 데이터가 얼마나 흩어져 있는지 보여줘요.',ex:'분산이 크면 데이터가 들쭉날쭉, 작으면 비슷비슷'},
+{ko:'표준편차',en:'Standard Deviation',cat:'분포',d:'분산의 제곱근. 평균에서 얼마나 떨어져 있는지를 원래 단위로 표현해요.',ex:'표준편차 2cm = 평균 키에서 약 2cm씩 흩어져 있다는 뜻'},
+{ko:'사분위수',en:'Quartile',cat:'분포',d:'데이터를 4등분하는 기준점. 25%·50%·75% 지점의 값을 알려줘요.',ex:'시험 점수 100명을 줄세웠을 때 25번째, 50번째, 75번째 학생의 점수'},
+{ko:'이상치',en:'Outlier',cat:'분포',d:'다른 값들과 너무 동떨어져 있는 값. 오타일 수도, 진짜 특이값일 수도 있어요.',ex:'평균 키 147cm 데이터에 1750cm 하나 → 이상치 (대개 오타)'},
+{ko:'코호트',en:'Cohort',cat:'분포',d:'같은 경험·시점을 함께한 사람들의 묶음.',ex:'2024년 3월 입학생 = 하나의 코호트'},
+{ko:'정규분포',en:'Normal Distribution',cat:'분포',d:'가운데가 가장 많고 양쪽으로 갈수록 적어지는 종 모양 분포.',ex:'학급 키 분포, 시험 점수 분포가 보통 정규분포에 가까워요'},
+{ko:'추세',en:'Trend',cat:'추세',d:'시간이 지나면서 숫자가 어떻게 변하는지의 방향.',ex:'매달 키가 0.5cm씩 자라는 흐름 = 상승 추세'},
+{ko:'변곡점',en:'Turning Point',cat:'추세',d:'추세 방향이 갑자기 바뀌는 지점.',ex:'5월까지 오르다 6월부터 내리기 시작한 날 = 변곡점'},
+{ko:'가속도',en:'Acceleration',cat:'추세',d:'변화의 속도가 빨라지는 정도.',ex:'1월부터 1점씩 떨어지다 5월부터 3점씩 떨어짐 = 하락 가속'},
+{ko:'시계열',en:'Time Series',cat:'추세',d:'시간 순서대로 정리한 데이터.',ex:'1월~12월 매달 매출 = 12개의 시계열 데이터'},
+{ko:'계절성',en:'Seasonality',cat:'추세',d:'특정 시점마다 반복되는 패턴.',ex:'매년 여름마다 아이스크림 매출이 오르는 계절성'},
+{ko:'이동평균',en:'Moving Average',cat:'추세',d:'들쭉날쭉한 흐름을 매끄럽게 보기 위해 일정 구간의 평균을 굴려가며 보는 방법.',ex:'7일 이동평균 = 최근 7일 평균을 매일 새로 계산'},
+{ko:'상관관계',en:'Correlation',cat:'관계',d:'두 숫자가 같이 움직이는 정도. 같이 움직인다고 해서 한쪽이 원인인 건 아니에요.',ex:'기온이 오르면 아이스크림 판매도 오름 = 양의 상관'},
+{ko:'인과관계',en:'Causation',cat:'관계',d:'한 사건이 다른 사건을 진짜로 일으키는 관계.',ex:'비가 와서 우산이 팔렸다 = 인과 / 두 가지가 같이 늘었다 = 상관'},
+{ko:'회귀',en:'Regression',cat:'관계',d:'한 숫자가 다른 숫자에 얼마나 영향을 주는지 직선으로 나타내는 분석.',ex:'공부 1시간 늘면 점수 8점 오른다는 식의 정량적 관계'},
+{ko:'상관계수',en:'Correlation Coefficient',cat:'관계',d:'두 숫자가 얼마나 강하게 같이 움직이는지를 -1~+1 사이 숫자로 나타낸 값.',ex:'상관계수 0.9 = 매우 강하게 같이 움직임 / 0.1 = 거의 무관'},
+{ko:'결정계수',en:'R²',cat:'관계',d:'회귀선이 데이터를 얼마나 잘 설명하는지의 비율.',ex:'R² = 0.8 → 데이터의 80%가 회귀선으로 설명됨'},
+{ko:'선행지표',en:'Leading Indicator',cat:'관계',d:'결과보다 먼저 움직이는 지표. 미리 신호를 잡을 수 있어요.',ex:'기상 예보 = 우산 판매의 선행지표'},
+{ko:'후행지표',en:'Lagging Indicator',cat:'관계',d:'결과로 나타나는 지표.',ex:'월말 매출 = 후행지표 (이미 일어난 결과)'},
+{ko:'교란변수',en:'Confounding Variable',cat:'관계',d:'두 숫자가 같이 움직이는 진짜 이유가 따로 있는 경우의 그 "숨은 변수".',ex:'아이스크림 판매와 익사 사고 둘 다 늘어남 → 교란변수 = 여름'},
+{ko:'가설검정',en:'Hypothesis Testing',cat:'추론',d:'두 그룹에 차이가 진짜 있는지, 우연인지를 통계로 판단하는 절차.',ex:'A반 평균 80, B반 평균 78 → 진짜 차이일까 우연일까 검정'},
+{ko:'신뢰구간',en:'Confidence Interval',cat:'추론',d:'진짜 답이 들어 있을 가능성이 큰 범위.',ex:'전국 평균 키 = 145~149cm 사이 (95% 신뢰)'},
+{ko:'p값',en:'P-value',cat:'추론',d:'관측한 차이가 우연으로 일어날 확률. 작을수록 진짜 차이일 가능성이 커요.',ex:'p = 0.03 → 우연일 확률 3%, 진짜 차이일 가능성 97%'},
+{ko:'유의수준',en:'Significance Level',cat:'추론',d:'p값이 이보다 작으면 "진짜 차이"라고 결론 내는 기준선.',ex:'p < 0.05 → 통계적으로 의미 있는 차이로 인정'},
+{ko:'세그먼트',en:'Segment',cat:'응용',d:'전체를 어떤 기준으로 나눈 그룹.',ex:'학년별 세그먼트, 성별 세그먼트, 지역별 세그먼트'},
+{ko:'퍼널',en:'Funnel',cat:'응용',d:'단계별로 사람이 얼마나 빠져나가는지 보는 깔때기 모양 분석.',ex:'동아리 가입 100명 → 첫 모임 60명 → 한 달 후 30명'},
+{ko:'전환율',en:'Conversion Rate',cat:'응용',d:'한 단계에서 다음 단계로 넘어간 사람의 비율.',ex:'가입 100명 중 30명 활동 → 전환율 30%'},
+{ko:'코호트 분석',en:'Cohort Analysis',cat:'응용',d:'같이 시작한 사람들이 시간이 지남에 따라 어떻게 달라지는지 추적하는 분석.',ex:'3월 입학생들의 6개월 후 출석률을 4월 입학생과 비교'},
+{ko:'VOC',en:'Voice of Customer',cat:'정성',d:'고객(또는 사용자)의 진짜 목소리.',ex:'설문 자유 답변, 인터뷰, 사용 후기'},
+{ko:'인터뷰',en:'Interview',cat:'정성',d:'한 명씩 깊게 대화하며 진짜 생각을 듣는 방법.',ex:'30분 동안 한 학생과 대화하며 학원에 대한 진심 듣기'},
+{ko:'설문',en:'Survey',cat:'정성',d:'여러 명에게 같은 질문을 던져 답을 모으는 방법.',ex:'30명에게 동일한 5문항 객관식 + 자유 답변'},
+{ko:'표집편향',en:'Sampling Bias',cat:'정성',d:'표본을 뽑을 때 의견이 한쪽으로 치우치게 만드는 함정.',ex:'동아리 활동에 나오는 사람만 인터뷰 → 그만둔 사람 의견 누락'},
+{ko:'정성분석',en:'Qualitative Analysis',cat:'정성',d:'숫자가 아닌 말·글·행동 같은 자료를 분석하는 방법.',ex:'인터뷰에서 자주 나온 단어 정리하기'}
+];
+
+/* ==========================================================
+   APP STATE
+   ========================================================== */
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+let _seq=null,_idx=0,_ctx=null,_chart=null;
+
+function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+clock();setInterval(clock,30000);
+
+const tabs=$$('.tab'),sections=$$('.section');
+function setTab(name){
+  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+  sections.forEach(s=>s.hidden=s.dataset.section!==name);
+  exitSlideMode();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+tabs.forEach(t=>t.addEventListener('click',()=>setTab(t.dataset.tab)));
+
+/* ==========================================================
+   MENUS
+   ========================================================== */
+function renderHomeMenu(){
+  const order=['dist','trend','corr','voc'];
+  $('#topic-buttons').innerHTML=order.map(k=>{
+    const t=TOPICS[k];const n=countHomeSlides(k);
+    return `<button class="topic-btn" data-topic="${k}">
+      <div class="topic-btn-row"><div class="topic-num">${t.badge}</div><div class="topic-info"><div class="topic-name">${t.name}</div><div class="topic-sub">${t.sub}</div></div><span class="topic-arrow">›</span></div>
+      <div class="topic-quick">${t.intro.h}</div>
+      <div class="topic-meta"><span>총 ${n}단계</span><span class="topic-meta-dot"></span><span>약 ${Math.ceil(n*0.5)}분</span></div>
+    </button>`;
+  }).join('');
+  $$('.topic-btn').forEach(b=>b.addEventListener('click',()=>startHome(b.dataset.topic)));
+}
+function countHomeSlides(k){const t=TOPICS[k];let n=2;t.cases.forEach(c=>{n+=2+c.views.length});return n+3}
+
+function renderDeepMenu(){
+  const order=[1,2,3,4,5,0];
+  $('#step-buttons').innerHTML=order.map(k=>{
+    const s=STEPS[k];const n=countDeepSlides(k);
+    return `<button class="deep-step-btn" data-step="${k}">
+      <div class="dsb-row"><div class="dsb-num">${k==0?'★':k}</div><div class="dsb-info"><div class="dsb-h">${s.name}</div><div class="dsb-p">${s.sub}</div></div><span class="dsb-arrow">›</span></div>
+      <div class="topic-meta" style="margin-top:12px;padding-top:12px;border-top:0.5px solid #EEF0F3"><span>총 ${n}단계</span><span class="topic-meta-dot"></span><span>약 ${Math.ceil(n*0.5)}분</span></div>
+    </button>`;
+  }).join('');
+  $$('.deep-step-btn').forEach(b=>b.addEventListener('click',()=>startDeep(b.dataset.step)));
+}
+function countDeepSlides(k){const s=STEPS[k];return 1+s.tools.length+1+s.case.views.length+3}
+
+/* ==========================================================
+   SLIDE NAVIGATION
+   ========================================================== */
+function buildHomeSeq(topic){
+  const t=TOPICS[topic],seq=[{type:'intro'},{type:'when'}];
+  t.cases.forEach((c,ci)=>{
+    seq.push({type:'case-bg',ci});
+    c.views.forEach((v,vi)=>seq.push({type:'case-view',ci,vi}));
+    seq.push({type:'case-summary',ci});
+  });
+  seq.push({type:'howto'},{type:'pitfalls'},{type:'summary'});
+  return seq;
+}
+function buildDeepSeq(stepKey){
+  const s=STEPS[stepKey],seq=[{type:'intro'}];
+  s.tools.forEach((t,ti)=>seq.push({type:'tool',ti}));
+  seq.push({type:'case-bg'});
+  s.case.views.forEach((v,vi)=>seq.push({type:'case-view',vi}));
+  seq.push({type:'case-summary'},{type:'connection'},{type:'summary'});
+  return seq;
+}
+
+function startHome(topic){_ctx={tab:'home',topic};_seq=buildHomeSeq(topic);_idx=0;$('#home-menu').hidden=true;$('#home-slides').hidden=false;$('#slide-nav').hidden=false;render()}
+function startDeep(stepKey){_ctx={tab:'deep',stepKey};_seq=buildDeepSeq(stepKey);_idx=0;$('#deep-menu').hidden=true;$('#deep-slides').hidden=false;$('#slide-nav').hidden=false;render()}
+
+function exitSlideMode(){
+  if(_chart){try{_chart.destroy()}catch(e){}_chart=null}
+  $('#home-menu').hidden=false;$('#home-slides').hidden=true;$('#home-slides').innerHTML='';
+  $('#deep-menu').hidden=false;$('#deep-slides').hidden=true;$('#deep-slides').innerHTML='';
+  $('#slide-nav').hidden=true;_seq=null;_idx=0;_ctx=null;
+}
+function next(){if(!_seq)return;if(_idx<_seq.length-1){_idx++;render()}else{exitSlideMode()}}
+function prev(){if(!_seq)return;if(_idx>0){_idx--;render()}else{exitSlideMode()}}
+
+$('#btn-next').addEventListener('click',next);
+$('#btn-prev').addEventListener('click',prev);
+
+function render(){
+  if(_chart){try{_chart.destroy()}catch(e){}_chart=null}
+  const slide=_seq[_idx],total=_seq.length,pct=Math.round(((_idx+1)/total)*100);
+  const containerId=_ctx.tab==='home'?'#home-slides':'#deep-slides';
+  const c=$(containerId);
+  const body=_ctx.tab==='home'?renderHomeSlide(slide):renderDeepSlide(slide);
+  c.innerHTML=`
+    <div class="slide-top">
+      <button class="back-btn" id="back-slide">←</button>
+      <div class="slide-progress"><div class="slide-progress-track"><div class="slide-progress-fill" style="width:${pct}%"></div></div><span class="slide-progress-text">${_idx+1}/${total}</span></div>
+    </div>
+    <div class="slide">${body}</div>`;
+  $('#back-slide').addEventListener('click',exitSlideMode);
+  setTimeout(()=>renderSlideChart(slide),30);
+  $('#btn-prev').disabled=_idx===0;
+  const isLast=_idx===_seq.length-1;
+  $('#btn-next').textContent=isLast?'학습 완료':'다음';
+  $('#btn-next').classList.toggle('gold',isLast);
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* ==========================================================
+   SLIDE RENDERERS
+   ========================================================== */
+function renderHomeSlide(slide){
+  const t=TOPICS[_ctx.topic];
+  switch(slide.type){
+    case 'intro':return slIntro(t);
+    case 'when':return slWhen(t);
+    case 'case-bg':return slCaseBg(t,slide.ci);
+    case 'case-view':return slCaseView(t,slide.ci,slide.vi);
+    case 'case-summary':return slCaseSummary(t,slide.ci);
+    case 'howto':return slHowto(t);
+    case 'pitfalls':return slPitfalls(t);
+    case 'summary':return slSummary(t);
+  }
+  return '';
+}
+function renderDeepSlide(slide){
+  const s=STEPS[_ctx.stepKey];
+  switch(slide.type){
+    case 'intro':return slDeepIntro(s);
+    case 'tool':return slTool(s,slide.ti);
+    case 'case-bg':return slDeepCaseBg(s);
+    case 'case-view':return slDeepCaseView(s,slide.vi);
+    case 'case-summary':return slDeepCaseSummary(s);
+    case 'connection':return slConnection(s);
+    case 'summary':return slDeepSummary(s);
+  }
+  return '';
+}
+
+// Common slide templates
+function slIntro(t){return `
+  <span class="slide-tag">${t.badge} ${t.name}</span>
+  <h2 class="slide-h">${t.intro.h}</h2>
+  <p class="slide-p lead">${t.intro.p}</p>
+  <div class="analogy-card"><p class="analogy-l">비유로 이해하기</p><p class="analogy-t">${t.intro.analogy}</p></div>`}
+
+function slWhen(t){return `
+  <span class="slide-tag">언제 쓰나요?</span>
+  <h2 class="slide-h sm">${t.name}이 필요한 순간</h2>
+  <ul class="scenario-list">${t.when.map((w,i)=>`
+    <li class="scenario-item"><div class="scenario-num">${i+1}</div><p class="scenario-t">${w.t}</p><p class="scenario-d">${w.d}</p></li>
+  `).join('')}</ul>`}
+
+function slCaseBg(t,ci){const c=t.cases[ci];return `
+  <span class="case-num-big">${c.n}</span>
+  <h2 class="slide-h sm">${c.title}</h2>
+  <div class="case-bg-card"><p class="case-bg-l">상황</p><p class="case-bg-t">${c.bg}</p></div>
+  <p class="slide-p" style="margin-top:8px;font-size:15px;color:#8B95A1">다음 화면에서 데이터를 직접 살펴봐요 →</p>`}
+
+function slCaseView(t,ci,vi){
+  const c=t.cases[ci],v=c.views[vi];
+  return `
+    <span class="slide-tag gray">${c.n} · ${vi+1}/${c.views.length}</span>
+    <span class="view-label">${v.label}</span>
+    <p class="view-msg">${v.msg}</p>
+    <div class="chart-card">
+      <div class="chart-wrap" id="chart-wrap"><canvas id="slide-chart"></canvas></div>
+    </div>
+    <p class="view-hint"><span class="view-hint-l">${v.hintL}</span>${v.hint}</p>`;
+}
+
+function slCaseSummary(t,ci){const c=t.cases[ci];return `
+  <span class="case-num-big">${c.n} · 정리</span>
+  <h2 class="slide-h sm">이 사례의 핵심</h2>
+  <div class="summary-card">
+    <div class="summary-row observe"><p class="summary-l"><span class="dot"></span>관찰한 것</p><p class="summary-t">${c.observe}</p></div>
+    <div class="summary-row insight"><p class="summary-l"><span class="dot"></span>인사이트</p><p class="summary-t">${c.insight}</p></div>
+    <div class="summary-row action"><p class="summary-l"><span class="dot"></span>처방</p><p class="summary-t">${c.action}</p></div>
+  </div>`}
+
+function slHowto(t){return `
+  <span class="slide-tag">사용법</span>
+  <h2 class="slide-h sm">${t.name}, 이렇게 적용해요</h2>
+  <div class="case-bg-card" style="padding:8px 20px">${t.howto.map((h,i)=>`
+    <div class="howto-step"><div class="howto-num">${i+1}</div><div class="howto-content"><p class="howto-title">${h.t}</p><p class="howto-desc">${h.d}</p></div></div>
+  `).join('')}</div>`}
+
+function slPitfalls(t){return `
+  <span class="slide-tag" style="background:#FFEBEE;color:#D32F2F">흔한 함정</span>
+  <h2 class="slide-h sm">이런 실수, 조심하세요</h2>
+  ${t.pitfalls.map((p,i)=>`
+    <div class="pitfall-card"><div class="pitfall-num">!</div><p class="pitfall-t">${p.t}</p><p class="pitfall-d">${p.d}</p></div>
+  `).join('')}`}
+
+function slSummary(t){return `
+  <span class="slide-tag green">학습 완료</span>
+  <h2 class="slide-h sm">${t.name}, 한 줄로 기억하기</h2>
+  <div class="key-insight">
+    <p class="key-insight-l">핵심 인사이트</p>
+    <p class="key-insight-text">${t.insight}</p>
+  </div>
+  <p class="slide-p" style="margin-top:14px;color:#6B7684;font-size:15px">아래 "학습 완료"를 누르면 다음 도구를 이어서 학습할 수 있어요.</p>`}
+
+// Deep slide templates
+function slDeepIntro(s){return `
+  <span class="slide-tag">${s.badge}</span>
+  <h2 class="slide-h">${s.intro.h}</h2>
+  <p class="slide-p lead">${s.intro.p}</p>
+  <div class="analogy-card"><p class="analogy-l">비유로 이해하기</p><p class="analogy-t">${s.intro.analogy}</p></div>`}
+
+function slTool(s,ti){const tool=s.tools[ti];return `
+  <span class="slide-tag gray">도구 ${ti+1}/${s.tools.length}</span>
+  <div class="tool-card">
+    <h3 class="tool-name">${tool.name}</h3>
+    <p class="tool-en">${tool.en}</p>
+    <p class="tool-def">${tool.def}</p>
+    <div class="tool-mini"><p class="tool-mini-l">미니 사례</p><p class="tool-mini-t">${tool.mini}</p></div>
+  </div>`}
+
+function slDeepCaseBg(s){return `
+  <span class="case-num-big">실무 사례</span>
+  <h2 class="slide-h sm">${s.case.title}</h2>
+  <div class="case-bg-card"><p class="case-bg-l">상황</p><p class="case-bg-t">${s.case.bg}</p></div>
+  <p class="slide-p" style="margin-top:8px;font-size:15px;color:#8B95A1">다음 화면에서 데이터를 살펴봐요 →</p>`}
+
+function slDeepCaseView(s,vi){
+  const v=s.case.views[vi];
+  return `
+    <span class="slide-tag gray">실무 사례 · ${vi+1}/${s.case.views.length}</span>
+    <span class="view-label">${v.label}</span>
+    <p class="view-msg">${v.msg}</p>
+    <div class="chart-card">
+      <div class="chart-wrap" id="chart-wrap"><canvas id="slide-chart"></canvas></div>
+    </div>
+    <p class="view-hint"><span class="view-hint-l">${v.hintL}</span>${v.hint}</p>`;
+}
+
+function slDeepCaseSummary(s){return `
+  <span class="case-num-big">사례 정리</span>
+  <h2 class="slide-h sm">이 단계의 핵심</h2>
+  <div class="summary-card">
+    <div class="summary-row observe"><p class="summary-l"><span class="dot"></span>관찰한 것</p><p class="summary-t">${s.case.observe}</p></div>
+    <div class="summary-row insight"><p class="summary-l"><span class="dot"></span>인사이트</p><p class="summary-t">${s.case.insight}</p></div>
+  </div>`}
+
+function slConnection(s){return `
+  <span class="slide-tag">다음 단계 연결</span>
+  <h2 class="slide-h sm">이 단계 다음은?</h2>
+  <div class="connection-card">
+    <p class="connection-l">흐름</p>
+    <p class="connection-h">${s.name} 다음에는...</p>
+    <p class="connection-t">${s.connection}</p>
+  </div>`}
+
+function slDeepSummary(s){return `
+  <span class="slide-tag green">학습 완료</span>
+  <h2 class="slide-h sm">${s.name}, 한 줄로 기억하기</h2>
+  <div class="key-insight">
+    <p class="key-insight-l">핵심 인사이트</p>
+    <p class="key-insight-text">${s.summary}</p>
+  </div>`}
+
+/* ==========================================================
+   DICTIONARY
+   ========================================================== */
+function renderDict(){
+  const cats=['전체','기초','분포','추세','관계','추론','응용','정성'];
+  $('#chips').innerHTML=cats.map((c,i)=>`<button class="chip${i==0?' active':''}" data-cat="${c}">${c}</button>`).join('');
+  $('#word-list').innerHTML=WORDS.map(w=>`
+    <div class="word" data-search="${w.ko} ${w.en}" data-category="${w.cat}">
+      <div><span class="word-h">${w.ko}</span><span class="word-en">${w.en}</span></div>
+      <div class="word-tags"><span class="word-tag${['기초','정성'].includes(w.cat)?' gold':''}">${w.cat}</span></div>
+      <p class="word-d">${w.d}</p>
+      <div class="word-ex"><div class="word-ex-l">예시</div>${w.ex}</div>
+    </div>`).join('');
+  let activeCat='전체';
+  function applyFilter(){
+    const q=($('#dict-search').value||'').toLowerCase().trim();
+    let cnt=0;
+    $$('.word').forEach(w=>{
+      const text=(w.dataset.search||'').toLowerCase(),cat=(w.dataset.category||'').trim();
+      const ok=(!q||text.includes(q))&&(activeCat==='전체'||cat===activeCat);
+      w.style.display=ok?'':'none';
+      if(ok)cnt++;
+    });
+    $('#empty').hidden=cnt!==0;
+  }
+  $('#dict-search').addEventListener('input',applyFilter);
+  $$('#chips .chip').forEach(c=>c.addEventListener('click',()=>{
+    $$('#chips .chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');activeCat=c.dataset.cat;applyFilter();
+  }));
+}
+
+/* ==========================================================
+   INIT
+   ========================================================== */
+renderHomeMenu();
+renderDeepMenu();
+renderDict();
+
+
+/* ==========================================================
+   CHART BUILDERS - 모든 차트 함수
+   각 차트는 (canvas, mode, wrap) 받음
+   ========================================================== */
+
+const CHART={};
+
+function baseOpts(extra){
+  return {responsive:true,maintainAspectRatio:false,animation:{duration:400,easing:'easeOutCubic'},
+    plugins:{legend:{display:false},datalabels:{display:false},tooltip:{backgroundColor:'rgba(25,31,40,0.92)',titleFont:{size:15,weight:'600'},bodyFont:{size:15},padding:8,displayColors:false}},
+    ...extra};
+}
+
+function bigNumberCard(wrap,opts){
+  // opts: {value, unit, caption, color}
+  wrap.style.height='auto';
+  wrap.innerHTML=`
+    <div style="padding:30px 14px 20px;text-align:center">
+      <div style="font-size:48px;font-weight:700;color:${opts.color||GOLD};letter-spacing:-1.8px;line-height:1.1">${opts.value}<span style="font-size:24px;margin-left:4px;letter-spacing:-0.5px">${opts.unit||''}</span></div>
+      <div style="font-size:15px;color:#8B95A1;margin-top:8px;font-weight:500">${opts.caption||''}</div>
+    </div>`;
+}
+
+function htmlInWrap(wrap,html){
+  wrap.style.height='auto';
+  wrap.innerHTML=html;
+}
+
+/* ============== 분포 ============== */
+CHART.dist=function(canvas,mode,wrap){
+  // 평균 3권 데이터: 한 명 50권 + 29명 합 40권
+  const data29=[1,2,1,2,1,0,2,1,3,2,1,0,1,2,3,1,2,1,0,1,2,1,3,2,1,0,1,2,1];
+  const full=[...data29.slice(0,19),50,...data29.slice(19)];
+  
+  if(mode==='avgOnly'){
+    bigNumberCard(wrap,{value:'3',unit:'권',caption:'30명 평균 한 달 독서량',color:GOLD});
+    return;
+  }
+  
+  if(mode==='distribution'){
+    const colors=full.map(v=>v>=30?GOLD:GRAY);
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels:full.map((_,i)=>i+1),datasets:[{data:full,backgroundColor:colors,borderRadius:2,barPercentage:0.95}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},
+          datalabels:{display:c=>c.dataset.data[c.dataIndex]>=30,anchor:'end',align:'top',color:GOLD,font:{size:15,weight:700},formatter:v=>v+'권'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{title:i=>(i[0].label||'')+'번 친구',label:i=>i.parsed.y+'권'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT,maxTicksLimit:6,callback:function(v,i){return i%5===0?(i+1)+'번':''}},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:55,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'권'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  
+  if(mode==='dotplot'){
+    // 각 친구를 점으로. x=권수, y=빈도(stack)
+    const counts={};
+    full.forEach(v=>{counts[v]=(counts[v]||0)+1});
+    const points=[];
+    Object.keys(counts).forEach(v=>{
+      const n=counts[v];
+      for(let i=0;i<n;i++){points.push({x:+v,y:i+1,_v:+v})}
+    });
+    _chart=new Chart(canvas,{
+      type:'scatter',
+      data:{datasets:[{data:points,backgroundColor:p=>p.raw&&p.raw._v>=30?GOLD:GRAY_DARK,pointRadius:7,pointHoverRadius:9}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.x+'권 읽은 친구'}}},
+        scales:{x:{type:'linear',min:-2,max:55,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'권'},grid:{color:'#EEF0F3'},border:{display:false},title:{display:true,text:'한 달에 읽은 권수',font:{size:15},color:TEXT}},
+          y:{beginAtZero:true,max:14,display:false}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.twoPeak=function(canvas,mode,wrap){
+  if(mode==='avgOnly'){
+    bigNumberCard(wrap,{value:'79',unit:'점',caption:'30명 평균 시험 점수'});
+    return;
+  }
+  if(mode==='distribution'){
+    const labels=['50~60점','60~70점','70~80점','80~90점','90~100점'];
+    const data=[6,8,0,0,16];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:data.map(v=>v>=10?GOLD:v>0?GRAY_DARK:GRAY_BG),borderRadius:4,barPercentage:0.7}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:c=>c.dataset.data[c.dataIndex]>0,anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'명'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'명'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:20,ticks:{font:{size:15},color:TEXT,stepSize:5,callback:v=>v+'명'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.concentration=function(canvas,mode,wrap){
+  if(mode==='avgOnly'){
+    bigNumberCard(wrap,{value:'33,200',unit:'원',caption:'5학년 25명 평균 한 달 용돈'});
+    return;
+  }
+  if(mode==='distribution'){
+    const labels=['~1만원','1~3만원','3~5만원','5만원 초과'];
+    const data=[10,7,0,8];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:[GRAY_DARK,GRAY,GRAY_BG,GOLD],borderRadius:4,barPercentage:0.65}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:c=>c.dataset.data[c.dataIndex]>0,anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'명'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:12,ticks:{font:{size:15},color:TEXT,stepSize:2,callback:v=>v+'명'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+/* ============== 추세 ============== */
+CHART.trendDecline=function(canvas,mode,wrap){
+  const labels=['1월','2월','3월','4월','5월','6월'];
+  const data=[8,7,5,4,3,2];
+  if(mode==='point'){
+    _chart=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{data:[null,null,null,null,null,2],borderColor:'transparent',pointBackgroundColor:GOLD,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:[0,0,0,0,0,12],showLine:false}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:c=>c.dataIndex===5,anchor:'end',align:'top',color:GOLD,font:{size:15,weight:700},formatter:v=>v+'권',offset:8},tooltip:{enabled:false}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:10,ticks:{font:{size:15},color:TEXT,stepSize:2,callback:v=>v+'권'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='line'){
+    _chart=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{data,borderColor:GOLD,backgroundColor:'rgba(245,177,0,0.08)',pointBackgroundColor:GOLD,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:6,borderWidth:3,tension:0.3,fill:true}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:GOLD,font:{size:15,weight:700},formatter:v=>v+'권',offset:4},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'권'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:10,ticks:{font:{size:15},color:TEXT,stepSize:2,callback:v=>v+'권'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.trendWeekend=function(canvas,mode,wrap){
+  const labels=['월','화','수','목','금','토','일'];
+  const data=[2,2,2,2,3,5,6];
+  if(mode==='avg'){
+    bigNumberCard(wrap,{value:'3.1',unit:'시간',caption:'일주일 평균 스마트폰 사용 시간'});
+    return;
+  }
+  if(mode==='bar'){
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:data.map(v=>v>=4?GOLD:GRAY),borderRadius:4,barPercentage:0.6}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'h'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'시간'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:7,ticks:{font:{size:15},color:TEXT,stepSize:1,callback:v=>v+'h'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.trendGrowth=function(canvas,mode,wrap){
+  if(mode==='compare'){
+    htmlInWrap(wrap,`
+      <div style="padding:20px 14px;display:flex;gap:12px;align-items:center;justify-content:center">
+        <div style="text-align:center;flex:1">
+          <div style="font-size:15px;color:#8B95A1;font-weight:600;margin-bottom:6px">친구 평균</div>
+          <div style="font-size:36px;font-weight:700;color:${GRAY_DARK};letter-spacing:-1px">148<span style="font-size:18px">cm</span></div>
+        </div>
+        <div style="font-size:24px;color:#B0B8C1">vs</div>
+        <div style="text-align:center;flex:1">
+          <div style="font-size:15px;color:#946600;font-weight:600;margin-bottom:6px">본인</div>
+          <div style="font-size:36px;font-weight:700;color:${GOLD};letter-spacing:-1px">147.5<span style="font-size:18px">cm</span></div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:15px;color:#6B7684;margin-top:8px;padding:0 14px">0.5cm 차이로 작아 보이지만, 성장 속도를 봐야 진짜를 알 수 있어요</div>`);
+    return;
+  }
+  if(mode==='growth'){
+    const labels=['1월','2월','3월','4월','5월','6월'];
+    const data=[145,145.5,146,146.5,147,147.5];
+    _chart=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{data,borderColor:GOLD,backgroundColor:'rgba(245,177,0,0.08)',pointBackgroundColor:GOLD,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:6,borderWidth:3,tension:0.2,fill:true}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:GOLD,font:{size:15,weight:700},formatter:v=>v,offset:4},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'cm'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{min:144,max:148,ticks:{font:{size:15},color:TEXT,stepSize:1,callback:v=>v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+/* ============== 상관 ============== */
+CHART.corrIce=function(canvas,mode,wrap){
+  const labels=['월','화','수','목','금','토','일'];
+  const sales=[80,110,150,190,220,200,160];
+  const temp=[22,24,27,30,33,31,28];
+  
+  if(mode==='salesOnly'){
+    _chart=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{label:'판매량',data:sales,borderColor:GOLD,backgroundColor:GOLD,pointRadius:5,borderWidth:2.5,tension:0.3}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:GOLD,font:{size:15,weight:700},formatter:v=>v,offset:4},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'개'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{ticks:{font:{size:15},color:TEXT,callback:v=>v+'개'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='twoLine'){
+    _chart=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[
+        {label:'판매량(개)',data:sales,borderColor:GOLD,backgroundColor:GOLD,pointBackgroundColor:GOLD,pointRadius:5,borderWidth:3,tension:0.3,yAxisID:'y'},
+        {label:'기온(°C)',data:temp,borderColor:BLUE,backgroundColor:BLUE,pointBackgroundColor:BLUE,pointRadius:5,borderWidth:2,borderDash:[5,4],tension:0.3,yAxisID:'y2'}
+      ]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,callbacks:{label:i=>i.dataset.label+': '+i.parsed.y+(i.datasetIndex==0?'개':'°C')}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{position:'left',ticks:{font:{size:15},color:GOLD,callback:v=>v+'개'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y2:{position:'right',ticks:{font:{size:15},color:BLUE_DARK,callback:v=>v+'°C'},grid:{display:false},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='scatter'){
+    const points=temp.map((t,i)=>({x:t,y:sales[i]}));
+    _chart=new Chart(canvas,{
+      type:'scatter',
+      data:{datasets:[{data:points,backgroundColor:GOLD,borderColor:GOLD,pointRadius:8,pointHoverRadius:10}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'기온 '+i.parsed.x+'°C → 판매 '+i.parsed.y+'개'}}},
+        scales:{x:{title:{display:true,text:'기온 (°C)',font:{size:15},color:TEXT},min:20,max:35,ticks:{font:{size:15},color:TEXT,stepSize:5,callback:v=>v+'°C'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y:{title:{display:true,text:'판매량 (개)',font:{size:15},color:TEXT},min:50,max:250,ticks:{font:{size:15},color:TEXT,stepSize:50,callback:v=>v+'개'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.corrStudy=function(canvas,mode,wrap){
+  const points=[{x:1,y:50},{x:1.5,y:55},{x:2,y:62},{x:2.5,y:68},{x:3,y:72},{x:3.5,y:78},{x:4,y:85},{x:5,y:90}];
+  if(mode==='sortedScore'){
+    const sortedScores=points.map(p=>p.y).sort((a,b)=>a-b);
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels:sortedScores.map((_,i)=>'학생'+(i+1)),datasets:[{data:sortedScores,backgroundColor:GOLD,borderRadius:4,barPercentage:0.6}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'점'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'점'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:100,ticks:{font:{size:15},color:TEXT,stepSize:25,callback:v=>v+'점'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='scatter'){
+    _chart=new Chart(canvas,{
+      type:'scatter',
+      data:{datasets:[{data:points,backgroundColor:GOLD,borderColor:GOLD,pointRadius:8,pointHoverRadius:10}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'공부 '+i.parsed.x+'시간 → '+i.parsed.y+'점'}}},
+        scales:{x:{title:{display:true,text:'공부 시간 (시간)',font:{size:15},color:TEXT},min:0,max:6,ticks:{font:{size:15},color:TEXT,stepSize:1,callback:v=>v+'h'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y:{title:{display:true,text:'시험 점수 (점)',font:{size:15},color:TEXT},min:40,max:100,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'점'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.corrUmbrella=function(canvas,mode,wrap){
+  const labels=['월','화','수','목','금','토','일'];
+  const sales=[5,8,30,15,50,80,40];
+  const rain=[0,0,5,1,12,20,8];
+  if(mode==='salesOnly'){
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data:sales,backgroundColor:GOLD,borderRadius:4,barPercentage:0.6}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'개'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'개'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:90,ticks:{font:{size:15},color:TEXT,callback:v=>v+'개'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='twoVar'){
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[
+        {type:'bar',label:'판매량(개)',data:sales,backgroundColor:GOLD,borderRadius:4,barPercentage:0.6,yAxisID:'y'},
+        {type:'line',label:'강수량(mm)',data:rain,borderColor:BLUE,backgroundColor:BLUE,pointRadius:5,borderWidth:2,borderDash:[5,4],tension:0.2,yAxisID:'y2'}
+      ]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,callbacks:{label:i=>i.dataset.label+': '+i.parsed.y+(i.datasetIndex==0?'개':'mm')}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{position:'left',beginAtZero:true,max:90,ticks:{font:{size:15},color:GOLD,callback:v=>v+'개'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y2:{position:'right',beginAtZero:true,max:25,ticks:{font:{size:15},color:BLUE_DARK,callback:v=>v+'mm'},grid:{display:false},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+
+/* ============== VOC ============== */
+CHART.vocLunch=function(canvas,mode,wrap){
+  if(mode==='avg'){
+    bigNumberCard(wrap,{value:'★ 4.3',unit:'',caption:'30명 평균 급식 만족도 (5점 만점)'});
+    return;
+  }
+  if(mode==='dist'){
+    htmlInWrap(wrap,`
+      <div style="padding:14px 4px">
+        <div class="bar-row"><span class="bar-lbl">5점</span><div class="bar-track"><div class="bar-fill" style="width:83%;background:${GOLD}"></div></div><span class="bar-cnt">25명</span></div>
+        <div class="bar-row"><span class="bar-lbl">4점</span><div class="bar-track"></div><span class="bar-cnt">0명</span></div>
+        <div class="bar-row"><span class="bar-lbl">3점</span><div class="bar-track"></div><span class="bar-cnt">0명</span></div>
+        <div class="bar-row"><span class="bar-lbl">2점</span><div class="bar-track"></div><span class="bar-cnt">0명</span></div>
+        <div class="bar-row"><span class="bar-lbl">1점</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:${GRAY_DARK}"></div></div><span class="bar-cnt">5명</span></div>
+        <p style="font-size:15px;color:#8B95A1;text-align:center;margin:14px 0 0">5점과 1점만 있고 가운데 점수는 0명 → 양극화</p>
+      </div>`);
+    return;
+  }
+  if(mode==='comments'){
+    htmlInWrap(wrap,`
+      <div style="padding:14px 4px">
+        <div style="font-size:15px;color:${INK};font-weight:600;margin-bottom:8px">자유 답변 자주 등장한 의견</div>
+        <div class="voc-comment"><div class="voc-comment-l">의견 1</div>"메뉴가 매번 똑같아요"</div>
+        <div class="voc-comment"><div class="voc-comment-l">의견 2</div>"양이 너무 적어서 배고파요"</div>
+        <div class="voc-comment"><div class="voc-comment-l">의견 3</div>"좋아하는 메뉴 나올 때만 별 5개 줘요"</div>
+      </div>`);
+    return;
+  }
+};
+
+CHART.vocAcademy=function(canvas,mode,wrap){
+  if(mode==='score'){
+    bigNumberCard(wrap,{value:'★ 4.8',unit:'',caption:'학부모 평균 만족도 (5점 만점)'});
+    return;
+  }
+  if(mode==='comments'){
+    htmlInWrap(wrap,`
+      <div style="padding:14px 4px">
+        <div style="font-size:15px;color:${INK};font-weight:600;margin-bottom:8px">자유 답변에 등장한 신호</div>
+        <div class="voc-comment" style="border-left-color:${RED}"><div class="voc-comment-l">학부모 A</div>"선생님 한 분이 갑자기 그만두셨어요"</div>
+        <div class="voc-comment" style="border-left-color:${RED}"><div class="voc-comment-l">학부모 B</div>"수업 시간이 줄어든 것 같아요"</div>
+        <div class="voc-comment" style="border-left-color:${RED}"><div class="voc-comment-l">학부모 C</div>"다른 학원도 알아보고 있어요"</div>
+      </div>`);
+    return;
+  }
+};
+
+CHART.vocClub=function(canvas,mode,wrap){
+  if(mode==='joined'){
+    bigNumberCard(wrap,{value:'50',unit:'명',caption:'이번 학기 동아리 가입자 (사상 최대)',color:GREEN});
+    return;
+  }
+  if(mode==='attendance'){
+    htmlInWrap(wrap,`
+      <div class="signal-row" style="padding:14px 4px">
+        <div class="signal-card ok"><div class="signal-num">50명</div><div class="signal-cap">가입자</div></div>
+        <div class="signal-card warn"><div class="signal-num">15명</div><div class="signal-cap">실제 출석</div></div>
+        <div class="signal-card warn"><div class="signal-num">30%</div><div class="signal-cap">출석률</div></div>
+      </div>
+      <p style="font-size:15px;color:#8B95A1;text-align:center;margin:10px 0 0;padding:0 14px">가입자(겉 숫자)는 늘었지만 출석(속 숫자)은 안 따라옴</p>`);
+    return;
+  }
+  if(mode==='interview'){
+    htmlInWrap(wrap,`
+      <div style="padding:14px 4px">
+        <div style="font-size:15px;color:${INK};font-weight:600;margin-bottom:8px">결석한 친구 인터뷰</div>
+        <div class="voc-comment"><div class="voc-comment-l">신입 A</div>"재밌어 보여서 가입했는데 막상 가니 너무 진지해서 무서워요"</div>
+        <div class="voc-comment"><div class="voc-comment-l">신입 B</div>"고학년만 있어서 끼어들기 어려웠어요"</div>
+      </div>`);
+    return;
+  }
+};
+
+/* ============== 심화 차트 ============== */
+CHART.cleanData=function(canvas,mode,wrap){
+  const labels=['친구1','친구2','친구3','친구4','친구5','친구6'];
+  if(mode==='before'){
+    const data=[145,148,1750,146,150,144];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:data.map(v=>v>500?RED:GRAY),borderRadius:3,barPercentage:0.6}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:c=>c.dataset.data[c.dataIndex]>500?RED:INK,font:{size:15,weight:700},formatter:v=>v+'cm'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'cm'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{type:'logarithmic',min:100,max:2000,ticks:{font:{size:15},color:TEXT,callback:v=>v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='after'){
+    const data=[145,148,175,146,150,144];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:GOLD,borderRadius:3,barPercentage:0.6}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'cm'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>i.parsed.y+'cm'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{min:140,max:180,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.classHeight=function(canvas,mode,wrap){
+  if(mode==='avg'){
+    bigNumberCard(wrap,{value:'147',unit:'cm',caption:'5학년 1반 30명 평균 키 · 중앙값 146cm'});
+    return;
+  }
+  if(mode==='dist'){
+    const labels=['135-140','140-145','145-150','150-155','155-160'];
+    const data=[2,8,12,6,2];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:data.map(v=>v>=10?GOLD:v>=5?GOLD_SOFT:GRAY),borderRadius:4,barPercentage:0.7}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>v+'명'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{title:i=>i[0].label+'cm',label:i=>i.parsed.y+'명'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT,callback:function(v,i){return labels[i]+'cm'}},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:14,ticks:{font:{size:15},color:TEXT,stepSize:2,callback:v=>v+'명'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.sampleSize=function(canvas,mode,wrap){
+  if(mode==='small'){
+    const labels=['표본 30명'];
+    const errors=[3];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data:errors,backgroundColor:RED,borderRadius:6,barPercentage:0.4}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:RED,font:{size:15,weight:700},formatter:v=>'±'+v+'cm'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'오차 ±'+i.parsed.y+'cm'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:4,ticks:{font:{size:15},color:TEXT,stepSize:1,callback:v=>'±'+v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='all'){
+    const labels=['30명','100명','1000명'];
+    const errors=[3,1.7,0.5];
+    _chart=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[{data:errors,backgroundColor:[RED,GOLD_SOFT,GREEN],borderRadius:4,barPercentage:0.55}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:INK,font:{size:15,weight:700},formatter:v=>'±'+v+'cm'},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'오차 ±'+i.parsed.y+'cm'}}},
+        scales:{x:{ticks:{font:{size:15},color:TEXT},grid:{display:false},border:{display:false}},
+          y:{beginAtZero:true,max:4,ticks:{font:{size:15},color:TEXT,stepSize:1,callback:v=>'±'+v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.regression=function(canvas,mode,wrap){
+  const points=[{x:140,y:215},{x:142,y:220},{x:145,y:225},{x:147,y:228},{x:148,y:232},{x:150,y:235},{x:152,y:238},{x:155,y:243},{x:158,y:248}];
+  if(mode==='scatter'){
+    _chart=new Chart(canvas,{
+      type:'scatter',
+      data:{datasets:[{data:points,backgroundColor:GOLD,borderColor:GOLD,pointRadius:7,pointHoverRadius:9}]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'키 '+i.parsed.x+'cm → 발 '+i.parsed.y+'mm'}}},
+        scales:{x:{title:{display:true,text:'키 (cm)',font:{size:15},color:TEXT},min:138,max:160,ticks:{font:{size:15},color:TEXT,stepSize:5,callback:v=>v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y:{title:{display:true,text:'발 사이즈 (mm)',font:{size:15},color:TEXT},min:210,max:255,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'mm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+  if(mode==='line'){
+    const line=[{x:140,y:215.5},{x:158,y:248.2}];
+    _chart=new Chart(canvas,{
+      type:'scatter',
+      data:{datasets:[
+        {label:'데이터',data:points,backgroundColor:GOLD,borderColor:GOLD,pointRadius:7,pointHoverRadius:9},
+        {type:'line',label:'회귀선',data:line,borderColor:BLUE,borderWidth:2,borderDash:[4,4],pointRadius:0,fill:false,showLine:true}
+      ]},
+      options:baseOpts({
+        plugins:{legend:{display:false},datalabels:{display:false},
+          tooltip:{backgroundColor:'rgba(25,31,40,0.92)',padding:8,displayColors:false,callbacks:{label:i=>'키 '+i.parsed.x+'cm → 발 '+i.parsed.y+'mm'}}},
+        scales:{x:{title:{display:true,text:'키 (cm)',font:{size:15},color:TEXT},min:138,max:160,ticks:{font:{size:15},color:TEXT,stepSize:5,callback:v=>v+'cm'},grid:{color:'#EEF0F3'},border:{display:false}},
+          y:{title:{display:true,text:'발 사이즈 (mm)',font:{size:15},color:TEXT},min:210,max:255,ticks:{font:{size:15},color:TEXT,stepSize:10,callback:v=>v+'mm'},grid:{color:'#EEF0F3'},border:{display:false}}}
+      })
+    });
+    return;
+  }
+};
+
+CHART.interviewQuotes=function(canvas,mode,wrap){
+  htmlInWrap(wrap,`
+    <div style="padding:14px 4px">
+      <div style="font-size:15px;color:${INK};font-weight:600;margin-bottom:8px">10명 인터뷰 자주 등장한 답변</div>
+      <div class="voc-comment"><div class="voc-comment-l">학생 A</div>"급식이 별로라 잘 안 먹어요"</div>
+      <div class="voc-comment"><div class="voc-comment-l">학생 B</div>"야식으로 라면을 자주 먹어요"</div>
+      <div class="voc-comment"><div class="voc-comment-l">학생 C</div>"운동 시간이 줄었어요"</div>
+      <div class="voc-comment"><div class="voc-comment-l">학생 D</div>"저녁에 늦게 자요"</div>
+      <p style="font-size:15px;color:#8B95A1;margin:10px 0 0">10명 중 7명이 식습관·수면·운동을 언급</p>
+    </div>`);
+};
+
+CHART.flowDiagram=function(canvas,mode,wrap){
+  htmlInWrap(wrap,`
+    <div style="padding:14px 4px">
+      <div class="flow-diagram">
+        <div class="flow-step">1. 데이터 정리</div><span class="flow-arrow">›</span>
+        <div class="flow-step">2. 분포 보기</div><span class="flow-arrow">›</span>
+        <div class="flow-step">3. 추론</div><span class="flow-arrow">›</span>
+        <div class="flow-step">4. 회귀</div><span class="flow-arrow">›</span>
+        <div class="flow-step">5. 인터뷰</div>
+      </div>
+      <div style="margin-top:12px;padding:12px;background:#FAFBFC;border-radius:10px">
+        <div style="font-size:15px;color:#8B95A1;font-weight:600;margin-bottom:6px">단계별 결과</div>
+        <div style="font-size:15px;color:${INK};line-height:1.7">
+          1) 0.0 입력 5건 제외<br>
+          2) 4~6학년이 더 나빠짐<br>
+          3) 작년보다 통계적으로 유의 (p&lt;0.05)<br>
+          4) 스크린 1h 늘면 시력 0.05 하락<br>
+          5) 게임·영상 시간 증가가 원인
+        </div>
+      </div>
+    </div>`);
+};
+
+/* ==========================================================
+   SLIDE CHART RENDERER
+   ========================================================== */
+function renderSlideChart(slide){
+  if(slide.type!=='case-view')return;
+  let view;
+  if(_ctx.tab==='home'){
+    view=TOPICS[_ctx.topic].cases[slide.ci].views[slide.vi];
+  }else{
+    view=STEPS[_ctx.stepKey].case.views[slide.vi];
+  }
+  if(!view||!view.chart)return;
+  const builder=CHART[view.chart.type];
+  if(!builder)return;
+  const wrap=document.getElementById('chart-wrap');
+  const canvas=document.getElementById('slide-chart');
+  if(!wrap||!canvas)return;
+  try{builder(canvas,view.chart.mode,wrap)}catch(e){console.error('chart err',view.chart,e)}
+}
+
+
+
+</script>
+</body>
+</html>
