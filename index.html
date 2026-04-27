@@ -18,11 +18,10 @@ input{font-family:inherit}
 .frame{max-width:430px;margin:0 auto;min-height:100vh;background:#F2F4F6;position:relative;box-shadow:0 0 80px rgba(0,0,0,0.08)}
 @media (max-width:480px){body{background:#F2F4F6}.frame{box-shadow:none}}
 
-.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 8px;background:#F2F4F6}
-.statusbar .time{font-size:15px;font-weight:600}
-.statusbar .brand{font-size:15px;font-weight:700;color:#946600;letter-spacing:-0.2px}
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 8px;background:#FFFFFF}
+.statusbar .brand{font-size:15px;font-weight:700;color:#F5B100;letter-spacing:-0.2px}
 
-.tabbar{display:flex;background:rgba(242,244,246,0.92);padding:0 18px;border-bottom:0.5px solid rgba(0,0,0,0.06);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.tabbar{display:flex;background:#FFFFFF;padding:0 18px;border-bottom:0.5px solid rgba(0,0,0,0.06);position:sticky;top:0;z-index:100}
 .tab{flex:1;padding:14px 0;text-align:center;font-size:15px;font-weight:600;color:#8B95A1;background:transparent;border:none;border-bottom:2px solid transparent;transition:color 0.18s ease}
 .tab.active{color:#191F28;border-bottom-color:#F5B100}
 
@@ -38,7 +37,7 @@ input{font-family:inherit}
 .topic-btn{display:block;width:100%;background:#FFFFFF;border:none;border-radius:18px;padding:20px;margin-bottom:12px;text-align:left;transition:transform 0.15s ease,background 0.15s ease}
 .topic-btn:active{transform:scale(0.985);background:#FAFBFC}
 .topic-btn-row{display:flex;align-items:center;gap:14px}
-.topic-num{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#FFF4D6;color:#946600;font-size:18px;font-weight:700;border-radius:14px;flex-shrink:0;letter-spacing:-0.5px}
+.topic-num{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#F5B100;color:#FFFFFF;font-size:18px;font-weight:700;border-radius:14px;flex-shrink:0;letter-spacing:-0.5px}
 .topic-info{flex:1;min-width:0}
 .topic-name{font-size:18px;font-weight:700;letter-spacing:-0.4px}
 .topic-sub{font-size:15px;color:#6B7684;margin-top:3px;font-weight:500}
@@ -206,7 +205,7 @@ input{font-family:inherit}
 .five-num-v{color:#191F28;font-weight:700;font-size:15px}
 
 /* Bottom navigation */
-.slide-nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,rgba(242,244,246,0) 0%,rgba(242,244,246,0.95) 30%,#F2F4F6 100%);max-width:430px;margin:0 auto;z-index:90}
+.slide-nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:rgba(242,244,246,0.7);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:0.5px solid rgba(0,0,0,0.06);max-width:430px;margin:0 auto;z-index:90}
 .nav-btn{flex:1;padding:14px 0;border-radius:12px;font-size:15px;font-weight:700;border:none;transition:all 0.18s ease;letter-spacing:-0.2px}
 .nav-btn.prev{background:#EEF0F3;color:#4E5968;flex:0 0 88px}
 .nav-btn.next{background:#3182F6;color:#fff}
@@ -220,12 +219,21 @@ input{font-family:inherit}
 .intro-item:last-child{border-bottom:none;padding-bottom:0}
 .intro-item:first-child{padding-top:0}
 .intro-dot{flex-shrink:0;width:6px;height:6px;background:#F5B100;border-radius:50%;margin-top:8px}
+
+.frame:has(.section.white-bg) .statusbar{background:#FFFFFF}
+.frame:has(.section.white-bg) .section.white-bg{background:#FFFFFF}
+.section.white-bg .case-bg-card,
+.section.white-bg .summary-card,
+.section.white-bg .tool-card,
+.section.white-bg .case-card,
+.section.white-bg .pitfall-card,
+.section.white-bg .scenario-item,
+.section.white-bg .chart-card{box-shadow:0 1px 3px rgba(0,0,0,0.04);border:0.5px solid rgba(0,0,0,0.05)}
 </style>
 </head>
 <body>
 <div class="frame">
   <div class="statusbar">
-    <span class="time" id="clock">9:41</span>
     <span class="brand">운영튜터</span>
   </div>
 
@@ -769,8 +777,7 @@ const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
 let _seq=null,_idx=0,_ctx=null,_chart=null;
 
-function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
-clock();setInterval(clock,30000);
+
 
 const tabs=$$('.tab'),sections=$$('.section');
 function setTab(name){
@@ -833,14 +840,16 @@ function buildDeepSeq(stepKey){
   return seq;
 }
 
-function startHome(topic){_ctx={tab:'home',topic};_seq=buildHomeSeq(topic);_idx=0;$('#home-menu').hidden=true;$('#home-slides').hidden=false;$('#slide-nav').hidden=false;render()}
-function startDeep(stepKey){_ctx={tab:'deep',stepKey};_seq=buildDeepSeq(stepKey);_idx=0;$('#deep-menu').hidden=true;$('#deep-slides').hidden=false;$('#slide-nav').hidden=false;render()}
+function startHome(topic){_ctx={tab:'home',topic};_seq=buildHomeSeq(topic);_idx=0;$('#home-menu').hidden=true;$('#home-slides').hidden=false;$('#slide-nav').hidden=false;document.querySelector('section[data-section="home"]').classList.add('white-bg');render()}
+function startDeep(stepKey){_ctx={tab:'deep',stepKey};_seq=buildDeepSeq(stepKey);_idx=0;$('#deep-menu').hidden=true;$('#deep-slides').hidden=false;$('#slide-nav').hidden=false;document.querySelector('section[data-section="deep"]').classList.add('white-bg');render()}
 
 function exitSlideMode(){
   if(_chart){try{_chart.destroy()}catch(e){}_chart=null}
   $('#home-menu').hidden=false;$('#home-slides').hidden=true;$('#home-slides').innerHTML='';
   $('#deep-menu').hidden=false;$('#deep-slides').hidden=true;$('#deep-slides').innerHTML='';
-  $('#slide-nav').hidden=true;_seq=null;_idx=0;_ctx=null;
+  $('#slide-nav').hidden=true;
+  document.querySelectorAll('section.white-bg').forEach(s=>s.classList.remove('white-bg'));
+  _seq=null;_idx=0;_ctx=null;
 }
 function next(){if(!_seq)return;if(_idx<_seq.length-1){_idx++;render()}else{exitSlideMode()}}
 function prev(){if(!_seq)return;if(_idx>0){_idx--;render()}else{exitSlideMode()}}
